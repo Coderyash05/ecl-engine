@@ -1,0 +1,248 @@
+# Reserve Bank of India (Commercial Banks – Asset Classification, Provisioning and
+# Income Recognition) Directions, 2026.
+# Issued 27 April 2026; effective 1 April 2027.
+#
+# Every regulatory value carries its paragraph reference ("para").
+# Values marked `null` with `rbi_specified: false` are NOT set by RBI: they are bank
+# choices that must be decided, justified and documented (never filled in silently).
+# Percentages are stored as decimals (0.0025 = 0.25%).
+
+meta:
+  directions: "RBI (Commercial Banks – Asset Classification, Provisioning and Income Recognition) Directions, 2026"
+  issued: 2026-04-27
+  effective: 2027-04-01
+  config_version: "0.1.1"
+
+# ---------------------------------------------------------------- Default
+default:
+  para: "6(5), 8(1)"
+  npa_days_overdue_gt: 90            # NPA: more than 90 days overdue on a term loan
+  # Freddie mapping (data-specific, see config/freddie_layout.yaml):
+  #   delinquency_status >= "03" or "RA"; zero-balance codes 02/03/09/15 also count.
+  data_approximation:
+    rbi_specified: false
+    note: >-
+      Documented approximation: Freddie status 03 (90-119 days) is used for "more than 90
+      days" and 01 (30-59 days) for "more than 30 days" (SICR backstop). Monthly data
+      cannot distinguish day 90 from 91 or day 30 from 31.
+
+# ---------------------------------------------------------------- Staging
+staging:
+  stage_1:
+    para: "25(1)"
+    definition: "No significant increase in credit risk (SICR) since initial recognition"
+    measurement: 12_month_ecl
+  stage_2:
+    para: "25(2), 76"
+    definition: "SICR since initial recognition, not credit-impaired"
+    measurement: lifetime_ecl
+    assessment_level: facility
+  stage_3:
+    para: "25(3), 76"
+    definition: "Credit-impaired"
+    measurement: lifetime_ecl
+    assessment_level: borrower
+
+# ---------------------------------------------------------------- SICR
+sicr:
+  comparison:
+    para: "26"
+    rule: "Compare lifetime default risk at reporting date vs at initial recognition"
+    store_origination_pd: true
+  twelve_month_pd_proxy:
+    para: "27"
+    allowed: true
+    condition: "Not allowed if risk is concentrated beyond 12 months"
+    justification_required: true      # must be argued for 30-year mortgages
+  backstop:
+    para: "33-36"
+    days_past_due_gt: 30               # Freddie proxy: status 01 (30-59); see default.data_approximation
+    rebuttable: true
+    rebuttal_requires: [documented_evidence, approval]
+  indicators:
+    para: "Annex 1"
+    examples:
+      - collateral_value_decline       # falling house prices -> use current LTV
+      - unemployment
+      - borrower_behaviour
+  segmentation:
+    para: "68"
+    rule: "Collective assessment must not mask an individual loan's deterioration"
+  relative_pd_threshold:
+    rbi_specified: false
+    value: null                        # bank choice, to be decided and justified
+
+# ---------------------------------------------------------------- Curing
+curing:
+  para: "77"
+  applies_to: non_restructured_stage_3
+  to_stage_1: "Arrears cleared and no SICR"
+  to_stage_2: "Arrears cleared but SICR remains"
+  cooling_period:
+    rbi_specified: false               # delegated to Resolution of Stressed Assets Directions
+    applies_to: restructured_only
+    value: null
+
+# ---------------------------------------------------------------- Measurement
+lifetime:
+  para: "46(1), 51"
+  horizon: max_contractual_period
+  expected_cash_flows_include_prepayment: true
+  lifetime_pd_not_mechanically_from_stage_1_pd:
+    para: "45"
+    value: true
+
+timing:
+  para: "44"
+  rule: "A late but full payment is still a credit loss: discount expected cash flows"
+
+discounting:
+  para: "50-51"
+  rate: eir_at_initial_recognition
+  eir_includes_prepayment: true
+  eir_excludes_credit_losses: true
+  contractual_rate_allowed_until: 2030-03-31
+
+scenarios:
+  para: "47-49, 124, Annex 4 Table 5"
+  multiple_probability_weighted: true
+  unbiased: true
+  required: [base, upside, downside]
+  mean_reversion_beyond_forecast_horizon: true
+  additional_scenarios:
+    rbi_specified: false
+    value: null
+
+# ---------------------------------------------------------------- Risk parameters
+pd:
+  floor_12_month:
+    para: "96"
+    value: 0.0003                      # 0.03%
+  floor_lifetime_annual:               # added with Yash's approval, 2026-11-13
+    para: "96"
+    rbi_specified: false               # interpretation, not an RBI value
+    interpretation: >-
+      0.03% applied to each future year's conditional annual PD in the lifetime term
+      structure. Reason: the intent of the floor is a minimum annual default risk per exposure.
+      Para 96 (docs/reference/RBI-Directions.pdf, section O) reads: "The 12-month PD for any
+      instrument, applicable for the purpose of ECL computation, shall be subject to a minimum
+      regulatory floor of 0.03 per cent." It names the 12-month PD only, so extending it to
+      later years is an interpretation, not a requirement (checked 2026-11-13).
+    value: 0.0003
+
+lgd:
+  own_estimate:
+    para: "99"
+    allowed: true
+    independent_validation_required: true
+  fallback:
+    para: "97"
+    secured: 0.65
+    unsecured: 0.70
+
+ead:
+  para: "100"
+  net_credit_risk_mitigants: false
+
+# ---------------------------------------------------------------- Product category
+product_category:
+  para: "82(4), 91-92"
+  item: "(xi)(a)"
+  name: housing_loan_to_individuals
+  categories_kept_separate: true
+
+# ---------------------------------------------------------------- Prudential floors
+floors:
+  housing_loan_to_individuals:
+    stage_1:
+      para: "82(4)"
+      value: 0.0025                    # 0.25%
+    stage_2:
+      para: "82(4)"
+      value: 0.015                     # 1.50%
+    stage_3:
+      para: "82(5)"
+      # Years in Stage 3 -> floor on secured / unsecured portion.
+      band_boundaries:
+        rbi_specified: false           # interpretation, not RBI-specified
+        convention: "[from, to)"       # conservative: exactly 1.0 years falls in the 1-2y band
+        alternative: "(from, to]"      # consistent with para 10: sub-standard = NPA <= 12 months
+      bands:
+        - {years_from: 0, years_to: 1,    secured: 0.10, unsecured: 0.25}
+        - {years_from: 1, years_to: 2,    secured: 0.20, unsecured: 1.00}
+        - {years_from: 2, years_to: 3,    secured: 0.30, unsecured: 1.00}
+        - {years_from: 3, years_to: 4,    secured: 0.40, unsecured: 1.00}
+        - {years_from: 4, years_to: null, secured: 1.00, unsecured: 1.00}
+  advances_restructured_standard:       # item (xiv); added 2026-11-14 (owner approval, verified
+                                         # against docs/reference/RBI-Directions.pdf, quotes in
+                                         # docs/methodology/staging.md)
+    rbi_specified: true
+    scope: >-
+      "Advances restructured and classified as standard in terms of the Master Direction - Reserve
+      Bank of India (Relief Measures by Banks in Areas affected by Natural Calamities) Directions
+      2018" (calamity resolutions; now RSA Directions 2025 Chapter VI-A)
+    stage_1:
+      para: "82(4)(xiv)"
+      value: 0.05                      # 5% "if it falls under Stage 1 category subsequent to restructuring"
+    stage_2:
+      para: "82(4)(xiv)"
+      value: 0.10                      # 10% "In case of any SICR ... migrated to Stage 2"
+    stage_3:
+      para: "82(5)"                    # table for items (xi)(b)(i), (xi)(b)(ii), (xii), (xiv), (xv)
+      band_boundaries:
+        rbi_specified: false
+        convention: "[from, to)"
+      bands:
+        - {years_from: 0, years_to: 1,    secured: 0.25, unsecured: 0.40}
+        - {years_from: 1, years_to: 2,    secured: 0.40, unsecured: 1.00}
+        - {years_from: 2, years_to: 3,    secured: 0.55, unsecured: 1.00}
+        - {years_from: 3, years_to: 4,    secured: 0.75, unsecured: 1.00}
+        - {years_from: 4, years_to: null, secured: 1.00, unsecured: 1.00}
+  application:
+    para: "90"
+    stages_1_2: portfolio_level_per_stage   # separately for each loan product category
+    stage_3: account_level
+
+secured_portion:
+  para: "6(24)"
+  definition: "Portion covered by the realistic realisable value of collateral"
+  implementation: hpi_indexed_property_value   # implementation choice
+
+# ---------------------------------------------------------------- Governance
+overlays:
+  para: "131, Annex 4 Table 6"
+  documentation_required: [justification, calculation, triggers]
+
+recalibration:
+  para: "131"
+  explicit_numerical_triggers_required: true
+  post_implementation_backtesting: true
+  trigger_values:
+    rbi_specified: false               # bank sets the numbers
+    value: null
+
+# ---------------------------------------------------------------- Transition
+transition:
+  para: "107-108"
+  impact: "max(0, ECL at 2027-04-01 - IRACP provisions at 2027-03-31)"
+  ecl_date: 2027-04-01
+  iracp_date: 2027-03-31
+  cet1_addback_max_share:              # financial years (April-March), Directions' labels
+    "2027-28": 0.80
+    "2028-29": 0.60
+    "2029-30": 0.40
+    "2030-31": 0.20
+
+# ---------------------------------------------------------------- Income recognition
+income:
+  para: "113-116"
+  stages_1_2: eir_times_gross_carrying_amount
+  stage_3: cash_basis
+
+# ---------------------------------------------------------------- Not specified by RBI
+bank_choices:
+  # Industry practice / delegated items: document each choice in the validation report.
+  relative_pd_sicr_threshold: null     # see sicr.relative_pd_threshold
+  scenarios_beyond_table_5: null       # see scenarios.additional_scenarios
+  validation_metrics: [gini, ks, psi]  # industry practice, not RBI-prescribed
+  cooling_periods: null                # see curing.cooling_period

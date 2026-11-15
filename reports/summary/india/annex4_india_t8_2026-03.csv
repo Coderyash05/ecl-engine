@@ -1,0 +1,6 @@
+# Table 8 SICR criteria (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+Loan product category,Internal loan product,SICR criteria,Segmentation criteria,Number of segments
+Housing loans to individuals (item (xi)(a)),SYNTHETIC repo-linked floating-rate home loan,as the US engine (config/ecl.yaml): 30+ dpd backstop; lifetime PD ratio and absolute thresholds; indexed LTV; RBI default until arrears cleared,none - loan level (para 68),1

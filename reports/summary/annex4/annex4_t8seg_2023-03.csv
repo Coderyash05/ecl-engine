@@ -1,0 +1,31 @@
+# Table 8 supplement: stage rule by segment
+# Reporting date: 2023-03-31
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+category,region,stage,rule,loans,ead
+xi_a,CA/FL/NV/AZ,1,none,56244,14260703475.93
+xi_a,CA/FL/NV/AZ,2,backstop_30dpd,385,93473428.09532857
+xi_a,CA/FL/NV/AZ,2,collateral_ltv,6,2278812.58
+xi_a,CA/FL/NV/AZ,2,restructured,75,12462875.6
+xi_a,CA/FL/NV/AZ,2,sicr_pd,574,143701060.48
+xi_a,CA/FL/NV/AZ,3,default,308,79901838.4695444
+xi_a,CA/FL/NV/AZ,3,default_arrears,28,5884862.330521875
+xi_a,CA/FL/NV/AZ,3,restructured,930,233919358.80978888
+xi_a,other,1,none,208369,39841225317.06
+xi_a,other,2,backstop_30dpd,1453,251729022.20910332
+xi_a,other,2,collateral_ltv,11,4800743.69
+xi_a,other,2,restructured,199,29843767.47
+xi_a,other,2,sicr_pd,1731,354176051.37
+xi_a,other,3,default,1295,239984690.8259531
+xi_a,other,3,default_arrears,98,14976423.382776916
+xi_a,other,3,restructured,3322,631259591.2217008
+xiv,CA/FL/NV/AZ,1,none,1150,282106543.11
+xiv,CA/FL/NV/AZ,2,backstop_30dpd,39,8900020.477259776
+xiv,CA/FL/NV/AZ,2,sicr_pd,54,13610496.48
+xiv,CA/FL/NV/AZ,3,default,36,9106844.138293626
+xiv,CA/FL/NV/AZ,3,default_arrears,1,156792.4435875
+xiv,other,1,none,3618,707207016.33
+xiv,other,2,backstop_30dpd,134,23818569.66919469
+xiv,other,2,sicr_pd,137,25772693.5
+xiv,other,3,default,105,20465635.2822155
+xiv,other,3,default_arrears,5,838038.6706458334

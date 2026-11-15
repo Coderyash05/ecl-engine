@@ -1,0 +1,6 @@
+# Manual overrides (maker-checker log, Annex 3)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+override_id,account,stage_system,stage,status,reason
+none,,,,log head 0000000000000000000000000000000000000000000000000000000000000000,

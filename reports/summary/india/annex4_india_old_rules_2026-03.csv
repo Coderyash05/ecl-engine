@@ -1,0 +1,11 @@
+# Old-rules (IRACP 2025) provision (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+asset_class,stage,loans,outstanding,iracp_base,iracp_additional,iracp_provision,ecl_allowance
+doubtful D1,3,317,90.07997889562775,26.1461228594775,0.0,26.1461228594775,21.88386579040082
+doubtful D2,3,107,21.99717512978027,9.326354339649495,0.0,9.326354339649495,7.559247521496057
+doubtful D3,3,39,5.974960410320987,5.974960410320987,0.0,5.974960410320987,5.974960410320987
+standard,1,318908,96733.59785965677,241.83399464914194,0.0,241.83399464914194,241.83399464914194
+standard,2,11361,3759.8397845998775,9.399599461499694,0.0,9.399599461499694,112.01797443670348
+substandard,3,2100,684.9603785203917,102.74405677805876,0.0,102.74405677805876,79.51168016645458

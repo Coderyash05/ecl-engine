@@ -1,0 +1,10 @@
+# Table 9 Reconciliation of opening reserves (transitional adjustments)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+row,adjustment,ecl_allowance,iracp_provision
+Opening retained earnings under extant norms,,,
+Add: Effect of transitional adjustments,51768557.98339515,,
+Stage 1 adjustment,18350.296399980783,232384195.4951,232365845.1987
+Stage 2 adjustment,34880130.09831027,42285213.37701598,7405083.27870571
+Stage 3 adjustment,-86667038.3781054,955276217.6726487,1041943256.0507541

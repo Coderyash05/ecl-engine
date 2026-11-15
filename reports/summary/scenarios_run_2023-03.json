@@ -1,0 +1,133 @@
+{
+  "version": "scen-0.1.0",
+  "as_at": "2023-03-31",
+  "reporting_quarter": "2023Q1",
+  "run_at": "2026-11-15T13:59:28+00:00",
+  "git": {
+    "commit": "424af508bb1265bfd5c040b5030b7788546640ae",
+    "clean": true
+  },
+  "sources": {
+    "spf_survey": "2023Q1",
+    "spf_release_bound": "2023-02-28",
+    "sep_release": "2023-03-22",
+    "sep_pdf_confirmed": true,
+    "gs10_last_quarter": "2023Q1",
+    "macro_history_to": "2023Q1"
+  },
+  "var": {
+    "obs": 176,
+    "max_abs_eigenvalue": 0.7441941281335422
+  },
+  "actual_at_reporting_quarter": {
+    "unrate": 3.533333333333333,
+    "gs10": 3.6466666666666665,
+    "mortgage30": 6.372307692307694
+  },
+  "spreads": {
+    "mortgage_treasury_at_rq": 2.7256410256410275,
+    "mortgage_treasury_window_mean": 1.7710229476405945,
+    "mortgage_fedfunds_ex_zlb": {
+      "spread": 2.922965842490843,
+      "quarters": 100,
+      "of": 132
+    },
+    "mortgage_fedfunds_all": {
+      "spread": 3.189932428682429,
+      "quarters": 132,
+      "of": 132
+    }
+  },
+  "long_run": {
+    "hpi_yoy": 3.273633869833838,
+    "gdp_yoy": 2.0644733314862784,
+    "mortgage30": 5.422965842490843,
+    "unrate": 4.0
+  },
+  "long_run_z": -0.20683901455101417,
+  "scenarios": {
+    "base": {
+      "one_year_forward": {
+        "hpi": 1.7743596390904504,
+        "gdp": 0.8292024494477079
+      },
+      "hpi_cum_forecast": 6.272769512346543,
+      "z_min_forecast": -0.36593442955105154,
+      "severity_zbar": -0.29631020431536925
+    },
+    "downside": {
+      "one_year_forward": {
+        "hpi": -0.5721410821293293,
+        "gdp": -0.6125978336109505
+      },
+      "hpi_cum_forecast": -3.6466189063671273,
+      "z_min_forecast": -0.6483397332270819,
+      "weight": 0.2,
+      "n": 2000,
+      "severity_zbar": -0.5652720143919054,
+      "severity_percentile_in_sims": 7.8
+    },
+    "central": {
+      "one_year_forward": {
+        "hpi": 1.826629864843854,
+        "gdp": 0.8841476957639482
+      },
+      "hpi_cum_forecast": 6.273750379816101,
+      "z_min_forecast": -0.3615186558076403,
+      "weight": 0.6,
+      "n": 6000,
+      "severity_zbar": -0.2940817376064268,
+      "severity_percentile_in_sims": 48.93
+    },
+    "upside": {
+      "one_year_forward": {
+        "hpi": 4.024992375311953,
+        "gdp": 2.001595318426519
+      },
+      "hpi_cum_forecast": 16.38524138903239,
+      "z_min_forecast": -0.19280496682582973,
+      "weight": 0.2,
+      "n": 2000,
+      "severity_zbar": -0.05791675282135637,
+      "severity_percentile_in_sims": 92.46
+    }
+  },
+  "sep_crosscheck": [
+    {
+      "year": 2023,
+      "gdp_q4q4": 1.3584564391778908,
+      "unrate_q4": 4.049999999999995,
+      "sep_gdp": 0.4,
+      "sep_unrate": 4.5
+    },
+    {
+      "year": 2024,
+      "gdp_q4q4": 2.00080766047972,
+      "unrate_q4": 4.183522807679601,
+      "sep_gdp": 1.2,
+      "sep_unrate": 4.6
+    },
+    {
+      "year": 2025,
+      "gdp_q4q4": 1.9458702622630497,
+      "unrate_q4": 4.190035336143637,
+      "sep_gdp": 1.9,
+      "sep_unrate": 4.6
+    }
+  ],
+  "reference_sizes": {
+    "gdp:spf": 176,
+    "hpi:var": 176,
+    "gdp:var": 176,
+    "levels": 116
+  },
+  "evaluation_only_realised_after_as_at": {
+    "one_year_forward": {
+      "hpi": 6.115961206409626,
+      "gdp": 2.917973023496656
+    },
+    "hpi_cum_forecast_window": 14.928431957914468,
+    "severity_zbar": -0.08703349169943225,
+    "severity_percentile_in_sims": 89.81
+  }
+}

@@ -1,0 +1,6 @@
+# Table 6 ECL adjustments (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+row,amount,note
+Post Model Adjustments / Management Overlays,0.0,none applied to the synthetic book (US CO-3 / CO-5 are US-calibrated)

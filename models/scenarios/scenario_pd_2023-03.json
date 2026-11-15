@@ -1,0 +1,73 @@
+{
+  "date": "2023-03-31",
+  "loans": 272908,
+  "weights": {
+    "downside": 0.2,
+    "central": 0.6,
+    "upside": 0.2
+  },
+  "co3": {
+    "z_lr": -0.20683901455101417,
+    "z_min_replay": -1.0315,
+    "z_min_downside": -0.6386896930639835,
+    "s": 0.5236705581237708,
+    "z_first_base": -0.33550652857361984,
+    "z_first_downside": -0.46064656602480375,
+    "z_first_central": -0.3329764460461899,
+    "z_first_upside": -0.22021768044224482
+  },
+  "all": {
+    "as_on": "2023-03-31",
+    "segment": "all",
+    "value": "all",
+    "loans": 272908,
+    "pd12_base": 0.0053398185487611135,
+    "lifetime_base": 0.058974848989919976,
+    "pd12_downside": 0.00600817318493094,
+    "lifetime_downside": 0.06975631684555307,
+    "pd12_downside_co3": 0.00726829692495125,
+    "lifetime_downside_co3": 0.0778600358329316,
+    "pd12_central": 0.00532709954889443,
+    "lifetime_central": 0.05912755981895699,
+    "pd12_upside": 0.004790146724975444,
+    "lifetime_upside": 0.05165044361427551,
+    "pd12_weighted": 0.005607948459321997,
+    "pd12_weighted_no_co3": 0.005355923711317935,
+    "lifetime_weighted": 0.061378631780815616,
+    "lifetime_weighted_no_co3": 0.059757887983339905,
+    "pd12_uplift_weighted_vs_base": 1.0502132999674851,
+    "lifetime_uplift_weighted_vs_base": 1.0407594564812959
+  },
+  "backtest_all": {
+    "segment": "all",
+    "value": "all",
+    "loans": 272908,
+    "actual_b18": 0.004701217992876721,
+    "actual_a": 0.006067978952614067,
+    "defaults_b18": 1283,
+    "pd12_ttc": 0.005934772685641393,
+    "actual_b18_to_pd12_ttc": 0.7921479459947744,
+    "pd12_base": 0.0053398185487611135,
+    "actual_b18_to_pd12_base": 0.8804078172220751,
+    "pd12_downside_co3": 0.00726829692495125,
+    "actual_b18_to_pd12_downside_co3": 0.6468114940018432,
+    "pd12_central": 0.00532709954889443,
+    "actual_b18_to_pd12_central": 0.8825098817333716,
+    "pd12_upside": 0.004790146724975444,
+    "actual_b18_to_pd12_upside": 0.9814350713653393,
+    "pd12_weighted": 0.005607948459321997,
+    "actual_b18_to_pd12_weighted": 0.8383133381088705,
+    "pd12_realised_z": 0.004637769516778884,
+    "actual_b18_to_pd12_realised_z": 1.0136808170109117
+  },
+  "realised_macro": {
+    "one_year_forward": {
+      "hpi": 6.115961206409626,
+      "gdp": 2.917973023496656
+    },
+    "hpi_cum_forecast_window": 14.928431957914468,
+    "severity_zbar": -0.08703349169943225,
+    "severity_percentile_in_sims": 89.81
+  },
+  "z_measured_rq": -0.18587927084777758
+}

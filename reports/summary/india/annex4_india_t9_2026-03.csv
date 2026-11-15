@@ -1,0 +1,10 @@
+# Table 9 Transitional adjustments (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+row,adjustment,ecl_allowance,iracp_provision
+Opening retained earnings under extant norms,,,
+Add: Effect of transitional adjustments,-73.3566344763695,,
+Stage 1 adjustment,0.0,241.83399464914194,241.83399464914194
+Stage 2 adjustment,102.61837497520379,112.01797443670348,9.399599461499694
+Stage 3 adjustment,-29.261740498834286,114.92975388867245,144.19149438750674

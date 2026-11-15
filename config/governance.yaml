@@ -1,0 +1,55 @@
+# Governance (Module 9): manual overrides and model inventory checks.
+# RBI ECL Directions 2026 (docs/reference/RBI-Directions.pdf): Annex 3 paras 1(5), 3(1)-(4);
+# paras 33-36 (SICR rebuttals), 120-121 (inventory, tiering), 130 (validation).
+# Developer choices, not RBI values, unless a paragraph is quoted.
+version: gov-0.1.0
+rbi_specified: false
+
+overrides:
+  # Append-only, hash-chained JSON lines. Kept under data/ (gitignored): entries carry Freddie
+  # Mac loan ids. Back up with the run outputs; never edited or deleted by the code.
+  log_path: data/governance/override_log.jsonl
+  retention:
+    para: "Annex 3 3(4)"
+    quote: "These logs shall also be stored for a minimum period of three years and not be
+      tampered with during the storage period. These logs shall be system generated."
+    implementation: no delete or edit function exists; the hash chain detects any change
+  allowed:                         # field -> permitted new values
+    stage: [1, 2, 3]               # SICR rebuttal (paras 33-36) or judgemental downgrade
+  npa_override:
+    para: "Annex 3 3(2)-(3)"
+    rule: a system Stage 3 (NPA) account moves out of Stage 3 only with npa_exception and two-level
+      authorisation (maker + different checker); otherwise the override is rejected at run time
+  two_level_authorisation:
+    para: "Annex 3 3(3)"
+    rule: maker and checker must be different user ids (case-insensitive)
+
+inventory:
+  path: config/models.yaml
+  resolve_commits: false           # code_commit values refer to the pre-release development history;
+                                   # the published history was consolidated into one commit at
+                                   # release, so they are recorded, not looked up (true = check
+                                   # that each exists in the local git history)
+  required_fields:                 # para 120: owners, developers, users, tiering, intended use,
+    - name                         # dependencies, validation and monitoring status
+    - version
+    - code_commit
+    - purpose
+    - owner
+    - developers
+    - users
+    - intended_use
+    - tier
+    - tier_rationale
+    - status
+    - dependencies
+    - validation
+    - limitations
+    - overlays
+    - monitoring
+    - development_log
+  tiering:                         # para 121: risk and output materiality (developer criteria)
+    tier_1: drives the provision directly and a reasonable alternative moves it by >= 5%, or it
+      sets the stage of >= 1% of exposure
+    tier_2: feeds a tier-1 model; a reasonable alternative moves the provision by 1-5%
+    tier_3: reporting / presentation; no effect on the provision amount

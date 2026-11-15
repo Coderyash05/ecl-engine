@@ -1,0 +1,67 @@
+{
+  "version": "pdlife-0.4.0",
+  "previous_version": "pdlife-0.2.0",
+  "ttc_model": "pd12m-1.2.0",
+  "pit_model": "pdpit-0.2.1",
+  "trained_at": "2026-11-15T13:49:33.236968+00:00",
+  "git": {
+    "commit": "424af508bb1265bfd5c040b5030b7788546640ae",
+    "clean": true
+  },
+  "target": "target_b18",
+  "rho": 0.15,
+  "z_long_run": -0.20683901455101417,
+  "options": {
+    "default_incentive": "ge1",
+    "prepay_ramp": "both",
+    "dlq_decay": "state"
+  },
+  "carry_tau": 3.0,
+  "carry_tau_development_argmin": Infinity,
+  "carry_tau_parsimony_rule": 3.0,
+  "carry_rule": "owner decision 2026-11-13: tau = 3 years, the 12-quarter explicit macro forecast (open question #5), so the carried cycle mismatch fades on the forecast's time scale (paras 49, 124); applied only if the jump check flags a segment after the state-specific decay. Secondary: smallest tau within 5% of the best development error (rule set after seeing the results) = 3; development argmin = inf (failed OOT)",
+  "prepay_refinement": {
+    "materiality": 0.05,
+    "d2_material": false,
+    "d2_adopted": false
+  },
+  "revert_quarters": 8,
+  "report_date": "2023-12-01",
+  "label_end": "2024-12-01",
+  "floors": {
+    "pd_12m": 0.0003,
+    "lifetime_annual": 0.0003
+  },
+  "models": {
+    "H2": {
+      "terms": 96,
+      "loglik": -2353475.9478502045,
+      "iterations": 7,
+      "rows": 1427730,
+      "weighted_rows": 11789409.0
+    },
+    "H1": {
+      "terms": 122,
+      "loglik": -2348249.1121523185,
+      "iterations": 7,
+      "rows": 1427730,
+      "weighted_rows": 11789409.0
+    }
+  },
+  "selection": {
+    "stage_A": "all periods' year-1 hazard/PIT within tolerance, then the lowest vintage default error",
+    "stage_B": "dev_train log-likelihood not below the stage-A choice, then the lowest vintage prepayment error (years 1-3)",
+    "stage_C": "state-specific delinquency decay in the default equation (owner decision 2026-11-13); shared fade reported",
+    "stage_D": "D2 (incentive x age 2-5y) adopted only if it moves the 2012-16 vintage lifetime PD at origination or the 2023-12 lifetime PD by > 5% vs D1 and does not lower the dev_train log-likelihood"
+  },
+  "splice_tolerance": [
+    0.8,
+    1.25
+  ],
+  "jump_tolerance": [
+    0.8,
+    1.25
+  ],
+  "lifetime_sample_for_comparison": 40000,
+  "data_note": "US Freddie Mac data and US macro (FRED); not Indian risk estimates"
+}

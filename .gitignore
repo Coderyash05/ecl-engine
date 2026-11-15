@@ -1,0 +1,53 @@
+# Freddie Mac data needs a licence to redistribute: never commit data.
+# /data/ covers data/raw/, data/macro/, data/processed/ and data/governance/.
+/data/
+# Data files anywhere in the tree (belt and braces)
+*.parquet
+*.duckdb
+*.zip
+*.gz
+sample_orig_*
+sample_perf_*
+sample_svcg_*
+historical_data_*
+
+# Secrets
+.env
+.env.*
+
+# Generated outputs (rebuilt from scripts). reports/summary/ holds vintage/split-level
+# aggregates only and is tracked (Freddie Mac terms: results may be published if the dataset
+# cannot be reconstructed from them). Anything loan-level stays out of git.
+reports/*
+!reports/summary/
+
+# Local development records and tooling (not published)
+CLAUDE.md
+docs/history/
+reports/cleanup/
+scripts/compare_golden.py
+scripts/check_docs.py
+tests/scripts/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Model artefacts: bin tables, coefficients and trees only (largest file ~1 MB), so they are
+# tracked. Never commit scored loans or anything larger next to them.
+models/**/*.parquet
+models/**/*.duckdb

@@ -1,0 +1,398 @@
+# Model inventory (RBI ECL Directions 2026, paras 120-121; Annex 3).
+# One entry per model used in ECL. Required fields and tiering criteria: config/governance.yaml;
+# checked by `ecl governance inventory`. Validation: docs/validation_report.md
+# (developer self-validation, NOT independent validation).
+
+models:
+  pd_12m:
+    name: 12-month through-the-cycle PD (housing loans)
+    version: pd12m-1.2.1
+    code_commit: 424af50               # rate_spread change; fit commit in models/pd_12m/metadata.json
+    purpose: >-
+      12-month PD for performing loans: Stage 1 ECL input, PD at initial recognition for the
+      SICR test (paras 26-27), base for the lifetime PD term structure (Module 3, para 45).
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier_rationale: >-
+      Tier 1: sets the PD of every performing loan (Stage 1 ECL, SICR comparator through the
+      lifetime PD); Stage 2 = 2.3% of exposure at 2026-03. Stage 1 floor binds, so the provision
+      effect of PD alternatives is muted (SICR 2.0 / 3.0: <= 1.1%).
+    overlays: [CO-1, CO-2]               # candidates, not applied (config/overlays.yaml)
+    limitations:
+      - TTC by design (OOT mean PD 0.59-0.81% vs actual 0.37-0.49%); PIT level from pd_pit
+      - low-risk deciles over-predicted in relative terms
+      - CO-1 / CO-2 candidate overlays (COVID forbearance; ever_deferred)
+    monitoring:
+      - Gini on the latest labelled 12 months < 0.65 (OOT 0.69-0.75) -> review
+      - score PSI vs development > 0.25 -> review; 0.10-0.25 -> watch (OOT2 0.15)
+      - actual / predicted by dlq_state outside 0.8-1.25 with >= 100 defaults (PIT-adjusted)
+      - CO-1 / CO-2 triggers (candidate_overlays below)
+    tier: 1                                # material: drives Stage 1 ECL and staging
+    status: development                    # not yet approved for use
+    development_log: models/pd_12m/CHANGELOG.md
+    superseded_versions:
+      - version: pd12m-1.2.0               # rate_spread as a DOUBLE average (order-dependent last digits)
+        commit: 6558138
+        artefacts: not archived (numerically identical to 1.2.1, < 1e-14)
+      - version: pd12m-1.1.0               # dlq_state as one WoE column; 60-89 dpd under-predicted
+        commit: 4f71e0a
+        artefacts: models/pd_12m/v1.1.0
+      - version: pd12m-1.0.0               # never used; defects fixed in 1.1.0
+        artefacts: not retained in the repository
+        defects:
+          - 5% min bin size collapsed delinquency states (60-89 dpd: actual 69%, predicted 13%)
+          - orig_interest_rate was an era proxy (PSI 1.5-2.0 dev -> OOT)
+          - channel coding changed in 2008 (T vs B/C), PSI ~1
+    owner_decisions:                       # Yash, 2026-11-12
+      - dlq_state is the single delinquency feature, entered as dummies (base = never 30+ dpd)
+      - binning policy amended - merge a category only if < 0.5% of weighted snapshots AND < 500 defaults
+    known_issues:                          # v1.2.1, see models/pd_12m/CHANGELOG.md
+      - TTC by design - OOT mean PD 0.59-0.81% vs actual 0.37-0.49%; Module 3 converts to point-in-time
+      - low-risk deciles over-predicted in relative terms (dev_holdout decile 1 0.07% vs 0.03%)
+    candidate_overlays:                    # para 131; recorded, NOT applied; triggers are developer proposals
+      - id: CO-1
+        issue: delinquent loans under mass forbearance (COVID, OOT2) - PD too high
+        evidence: OOT2 60-89 dpd actual 17.0% vs predicted 51.2%
+        trigger: relief share of 30-89 dpd loan-months > 15% in a quarter, or actual/predicted < 0.70 for 30-89 dpd in two consecutive labelled quarters with >= 100 defaults
+      - id: CO-2
+        issue: ever_deferred loans - PD too low outside mass-relief periods
+        evidence: OOT1 actual 12.1% vs predicted 9.1% (1,766 snapshots)
+        trigger: actual/predicted > 1.25 over the last four labelled quarters with >= 100 defaults; add as candidate feature once >= 500 development defaults
+    validation:
+      status: not independently validated  # Module 11 (para 130); para 97 for own estimates
+      last_validated: null
+    data:
+      source: Freddie Mac Single-Family Loan-Level Dataset, sample files (US data)
+      vintages: 1999-2023                  # 2024-26 excluded (not PD-OK)
+      observation_window: 2000-01 to 2023-12
+      dataset: data/processed/pd_dataset   # built by `ecl build-pd-dataset`
+    target: >-
+      B-18 (RBI 90+ default within 12 months, relief months cured within 18 months relabelled;
+      post-2014 relief adjustment). Sensitivities: A (RBI 90+) and B-12.
+    champion: WoE logistic scorecard (optbinning + logistic regression), models/pd_12m/scorecard.pkl
+    features: [dlq_state, credit_score, current_ltv, rate_spread, orig_dti, num_borrowers,
+               loan_age, loan_purpose, channel]
+    challenger: LightGBM with monotone constraints, models/pd_12m/lgbm.txt
+    macro_variables: none                  # TTC; macro sensitivity in Module 3
+    dependencies:
+      - config/freddie_layout.yaml
+      - src/ecl/data/panel.py              # Module 1 panel and default definitions
+      - src/ecl/pd/dataset.py              # Module 2a dataset
+      - data/macro/hpi_at_state.csv        # FHFA all-transactions state HPI (current LTV)
+    outputs:
+      - data/processed/pd_at_origination   # per-loan PD at initial recognition (Module 6)
+    documentation:
+      model_card: reports/summary/pd_12m_model_card.md
+      metrics: reports/summary/pd_12m_metrics.csv
+      development_log: models/pd_12m/CHANGELOG.md
+    recalibration_triggers: null           # set in Module 11 (para 131: explicit numerical thresholds)
+
+  pd_pit:
+    name: Point-in-time conversion of the 12-month PD (Vasicek cycle index + macro satellite)
+    version: pdpit-0.2.1                 # driver-rule amendment only; satellite unchanged from 0.2.0
+    code_commit: dcdca6e
+    purpose: >-
+      Moves the TTC 12-month PD to point-in-time with a credit-cycle index Z_t driven by macro
+      scenarios (paras 47-49); the same Z drives the default hazard of the lifetime PD.
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier_rationale: >-
+      Tier 2 by output materiality: drives every PD's cycle level (Z), but the floors bind at
+      Stages 1 and 3, so a reasonable alternative (rho 0.10 / 0.20, no CO-3) moves the provision
+      by < 1%; tier 1 for the model ECL. Re-tier if the floors stop binding.
+    dependencies: [pd_12m]
+    overlays: [CO-3]                     # applied in the downside through pd_lifetime / scenarios
+    limitations:
+      - crisis peak under-predicted and early (2.74% in 2008Q4 vs 3.33% in 2009Q1)
+      - OOT 2017-23 used for driver selection (not a fully clean test period)
+      - rho not identifiable from the data (Basel benchmark 0.15)
+    monitoring:
+      - year-1 hazard / PIT ratio outside 0.9-1.1 in any labelled period
+      - 12-month backtest actual / weighted PD outside 0.8-1.25 (2023-03: 0.84; at realised Z 1.01)
+      - CO-3 review triggers (config/overlays.yaml)
+    tier: 2
+    status: development
+    development_log: models/pd_pit/CHANGELOG.md
+    design: docs/methodology/pd_point_in_time.md
+    superseded_versions:
+      - version: pdpit-0.2.0             # same satellite; GDP failed the then driver rule
+        commit: 8beeccd
+      - version: pdpit-0.1.0             # Fed funds change in Z; rho chosen among candidates
+        commit: 8a18bc1
+    validation:
+      status: not independently validated
+      last_validated: null
+      note: OOT 2017-2023 used for driver selection - not a fully clean test period
+    inputs:
+      ttc_model: pd12m-1.2.1
+      macro: [USSTHPI, A191RL1Q225SBEA]  # FRED, data/macro/ (US data)
+    parameters:
+      rho: 0.15                          # Basel residential-mortgage benchmark; not identifiable from the data
+      rho_sensitivities: [0.10, 0.20]
+      alignment: W                       # macro averaged over the 12-month outcome window
+      satellite_terms: ["hpi_yoy[W]", "gdp_yoy[W]"]
+      driver_rule: expected sign and |HAC t| >= 2; core drivers (HPI, GDP, ex ante) may not worsen OOT error by > 5%; optional additions must improve it by >= 5%
+    known_issues:
+      - crisis peak under-predicted and early (2.74% in 2008Q4 vs 3.33% in 2009Q1)
+      - 12m PD floor (0.03%) binds for up to ~46% of snapshots in benign quarters, but moves the portfolio rate by < 1%
+    candidate_overlays:                  # para 131; recorded, NOT applied; triggers are developer proposals
+      - id: CO-3
+        issue: regional downturn (CA/FL/NV/AZ) - PD too low; national factor misses the regional cycle
+        evidence: crisis 2007-11 actual/predicted 1.38 (other states 0.95)
+        trigger: regional actual/predicted > 1.25 for two consecutive labelled quarters with >= 100 defaults
+    documentation:
+      model_card: reports/summary/pd_pit_model_card.md
+
+  pd_lifetime:
+    name: Lifetime PD - competing-risk discrete-time hazard (default / prepay / survive)
+    version: pdlife-0.4.0
+    code_commit: 7e8b12e
+    options: {default_incentive: ge1, prepay_ramp: both, dlq_decay: state, carry_tau: 3}
+    carry_tau_rationale: "owner decision 2026-11-13: tau = 3 years, the 12-quarter explicit macro forecast (paras 49, 124); the development parsimony rule also gives 3 (set after seeing results)"
+    superseded_versions:
+      - version: pdlife-0.3.0            # carry tau = inf (development argmin); rejected, fails OOT
+        commit: 639b483
+      - version: pdlife-0.2.0            # shared delinquency fade; plain year-1 splice
+        commit: f8ae0df
+      - version: pdlife-0.1.0            # incentive bands in default equation; no prepayment ramp
+        commit: 00817e0
+    purpose: >-
+      Lifetime PD term structures for Stage 2 ECL (paras 45, 46(1), 51), forward-looking per
+      scenario and under long-run macro; SICR origination-side comparator (para 26).
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier_rationale: >-
+      Tier 1: lifetime PD sets Stage 2 ECL (the only stage where model ECL passes through the
+      floors) and the SICR comparator (stage of 4,469 loans at 2026-03).
+    dependencies: [pd_12m, pd_pit, macro_scenarios]
+    overlays: [CO-3]
+    limitations: [L1, L2, L3, L4, L5]    # text in known_issues and models/pd_lifetime/CHANGELOG.md
+    monitoring:
+      - L1-L4 triggers (known_issues)
+      - jump check flags in dev / OOT > 5 per period at the annual refit
+    tier: 1
+    status: development
+    development_log: models/pd_lifetime/CHANGELOG.md
+    design: docs/methodology/pd_lifetime.md
+    validation:
+      status: not independently validated
+      last_validated: null
+    inputs:
+      ttc_model: pd12m-1.2.1
+      pit_model: pdpit-0.2.1
+      macro: [USSTHPI, A191RL1Q225SBEA, MORTGAGE30US, hpi_at_state]   # US data
+    champion: H2 - v1.2.0 score components x horizon, LTV and loan-age WoE paths, Z, incentive, age baseline
+    challenger: H1 - borrower effects re-estimated (dlq_state x horizon, feature WoE)
+    floors: [pd.floor_12_month, pd.floor_lifetime_annual]    # config/rbi_2026.yaml
+    known_issues:
+      - crisis vintages under-predicted (2007 vintage 5y 10.3% vs 14.1%)
+      - "L4: 2012-16 vintages over-predicted for prepayment and default alike (year-1 actual/predicted 0.54 / 0.53); best refinement tested (incentive x age 2-5y) moves lifetime PD <= 3.5% (< 5%: not adopted). Trigger: year-1 vintage prepay actual/predicted < 0.7 for the latest two vintages with >= 3 years of data"
+      - "L5 (candidate refinement, not built): split the carried year-1 ratio into a persistent segment-level component (structural hazard misfit) and a fading cycle component"
+      - "L1: 60-89 dpd year-2 understated (0.55 dev / 0.60 OOT; ~30 defaults). Trigger: annual jump check, review if < 0.8 with >= 100 year-2 defaults"
+      - "L2: TTC decile jump mis-fit (deciles 1-3 change direction between samples; deciles 6 and 9 0.73-0.82). Trigger: decile with >= 100 year-2 defaults outside 0.8-1.25 in two consecutive annual checks (decile 9 OOT 0.77 with 230 defaults is the first reading)"
+      - "L3: carry fade length tau = 3 set by decision, not identified on development (argmin inf). Trigger: OOT error at tau = 3 more than 25% above the OOT optimum at annual recalibration (now 7%)"
+      - CO-3 persists over the lifetime (sand-state crisis vintages actual/predicted 1.2-1.7); Module 4 calibration requirement
+      - forward path illustrative until Module 4 scenarios
+    open_owner_questions: []
+    documentation:
+      model_card: reports/summary/pd_lifetime_model_card.md
+
+  macro_scenarios:
+    name: Macro scenarios - SPF/SEP-anchored base, VAR Monte Carlo, 20/60/20 region means
+    version: scen-0.2.0
+    code_commit: 8cb4655
+    purpose: >-
+      Probability-weighted, unbiased base / upside / downside paths for HPI (national and state),
+      GDP, mortgage rate and unemployment, with mean reversion beyond 12 quarters (paras 47-49,
+      124; Annex 4 Table 5). Feeds pd_pit (Z) and pd_lifetime (LTV, prepayment incentive).
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier_rationale: >-
+      Tier 2: the downside and weights move the weighted PD by 4-10% but the provision by < 1%
+      while the floors bind (per-scenario provisions in models/ecl/ecl_*.json).
+    limitations: [L6, L7, L8, L9]        # models/scenarios/CHANGELOG.md
+    monitoring:
+      - severity index of downside / upside outside the 5-20th / 80-95th percentile band (W1)
+      - realised path above the upside or below the downside at the 1-year backtest (W3)
+      - CO-4 trigger (actual / expected > 1.25 in a vintage x age band with >= 20 events)
+    tier: 2
+    status: development (Module 4 done, accepted 2026-11-14; CO-3 applied with limitation L6)
+    overlays: [CO-3, CO-4]          # config/overlays.yaml; CO-3 applied (downside), CO-4 candidate
+    development_log: models/scenarios/CHANGELOG.md
+    design: docs/methodology/scenarios.md
+    config: config/scenarios.yaml
+    dependencies: [pd_pit]          # satellite Z; feeds pd_lifetime, lgd, staging, ecl_measurement
+    external_inputs: [SPF median forecasts (Philadelphia Fed), FOMC SEP, FRED, FHFA]
+    validation:
+      status: not independently validated
+      last_validated: null
+      note: US data; severity checked against historical forecast errors each run
+
+  lgd:
+    name: LGD = P(no cure | default, months in default) x discounted severity; EAD by amortisation
+    version: lgd-0.2.0
+    code_commit: fd27c5e
+    superseded_versions:
+      - version: lgd-0.1.0             # development fit; kept as sensitivity 'option 1'
+        commit: 855423f
+    purpose: >-
+      Own LGD estimate (para 99) for housing loans: cure logistic and fractional-logit severity on
+      indexed LTV, MI, property type and size; scenario-dependent through state HPI paths; Stage 3
+      LGD by months in default; EAD from the amortisation schedule (para 100, no netting); secured
+      / unsecured portion (para 6(24)) for the Stage 3 floors (Module 8).
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier_rationale: >-
+      Tier 1: own estimate under para 99; the RBI fallback (65 / 70%) would raise the 2026-03
+      provision by 43.5% (1,229.9m -> 1,765.0m); option 1 by 1.2%.
+    limitations: [L-LGD1, L-LGD2, L-LGD3, L-LGD4, L-LGD5, L-LGD6, L-LGD7, L-LGD8]  # models/lgd/CHANGELOG.md
+    monitoring:
+      - actual / predicted LGD by default period outside 0.8-1.25 with >= 200 resolved defaults
+      - crisis-period ratio <= 1.10 on a refit -> remove CO-5
+      - L-LGD1 materiality - Stage 1 model coverage > 0.20% or < 75% of Stage 3 accounts floored
+    tier: 1
+    status: development (Module 5 built 2026-11-14)
+    development_log: models/lgd/CHANGELOG.md
+    model_card: models/lgd/model_card.md
+    design: docs/methodology/lgd_ead.md
+    config: config/lgd.yaml
+    dependencies: [pd_lifetime, macro_scenarios]
+    overlays: [CO-5]
+    validation:
+      status: not independently validated
+      last_validated: null
+      note: >-
+        Cure intercept recalibrated on resolved 2012-19 defaults (owner decision 2026-11-14);
+        crisis-period gap 1.51 (CO-5); post-2017 still over-predicted, conservative (L-LGD1)
+
+  staging:
+    name: Staging rules (Module 6) - SICR, backstop, default, restructuring (RSA), calamity route
+    version: ecl-0.1.0                   # versioned with config/ecl.yaml
+    code_commit: 70e66da
+    purpose: >-
+      Stage 1 / 2 / 3 per loan with the rule that fired (paras 25-36, 77-81, Annex 1): 30+ dpd
+      backstop, relative lifetime-PD SICR (2.5x and +0.5 pp), indexed LTV, RBI default until
+      arrears cleared (8(10)), restructured accounts per RSA 52-62 (owner reading), calamity
+      route per RSA Chapter VI-A (category (xiv)); manual overrides from the Module 9 log.
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier: 1
+    tier_rationale: >-
+      Tier 1: the restructuring mapping alone is 65% of the 2026-03 provision; alternative
+      readings move it by -23% (deferrals unmapped) to +29% (all deferrals general).
+    status: development (Modules 6-8 built 2026-11-14)
+    development_log: models/ecl/CHANGELOG.md
+    design: docs/methodology/staging.md
+    config: config/ecl.yaml
+    dependencies: [pd_12m, pd_lifetime, macro_scenarios]
+    overlays: []
+    limitations: [L-ECL1, L-ECL2, L-ECL3, L-ECL5, L-ECL7, L-ECL8]  # models/ecl/CHANGELOG.md
+    monitoring:
+      - Stage 2 anticipation < 30% with >= 12 months of outcomes, or Stage 2 / Stage 1 default-rate ratio < 20 (L-ECL3)
+      - share of Stage 3 from restructuring; RSA readings re-checked on any RSA amendment
+      - override log - count and exposure of active overrides per run (Annex 3 3(3) reporting)
+    validation:
+      status: not independently validated
+      last_validated: null
+      note: developer self-validation in docs/validation_report.md (Module 11)
+
+  ecl_measurement:
+    name: ECL measurement (Module 7) and prudential floors (Module 8)
+    version: ecl-0.1.0
+    code_commit: 70e66da
+    purpose: >-
+      12-month and lifetime ECL per scenario, discounted at the note rate, probability-weighted
+      (paras 44, 47-51); housing (xi)(a) and calamity-restructured (xiv) floors (paras 82(4)-(5),
+      90-92) -> final provision; feeds Annex 4 and the transition (Module 10).
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier: 1
+    tier_rationale: Tier 1 - produces the provision (1,229.9m at 2026-03; floors add 1,075m).
+    status: development (Modules 6-8 built 2026-11-14)
+    development_log: models/ecl/CHANGELOG.md
+    model_card: models/ecl/model_card.md
+    design: docs/methodology/measurement_floors.md
+    config: config/ecl.yaml
+    dependencies: [staging, pd_12m, pd_lifetime, macro_scenarios, lgd]
+    overlays: [CO-3, CO-5]
+    limitations: [L-ECL4]
+    monitoring:
+      - floor binding - Stage 1 model coverage vs 0.25%; share of Stage 3 accounts floored (94% / 97%)
+      - ECL backtest - 12-month actual / predicted defaults outside 0.8-1.25 (2023-03: 1.11 RBI)
+    validation:
+      status: not independently validated
+      last_validated: null
+      note: >-
+        Developer self-validation in docs/validation_report.md. Floors drive the provision
+        (model ECL 154.7m -> 1,229.9m at 2026-03).
+
+  reporting:
+    name: Annex 4 tables, old-rules (IRACP) provision, ECL transition (Module 10)
+    version: report-0.1.0
+    code_commit: 525dbd4
+    purpose: >-
+      Annex 4 Tables 1-9; IRACP 2025 provision per loan; transition impact and CET1 add-back
+      schedule (paras 107-108); old-rules vs ECL by segment.
+    owner: Yash
+    developers: [Yash]
+    users: [credit risk (staging, provisioning), finance (ECL allowance), regulatory reporting (Annex 4), model validation]
+    intended_use: regulatory (ECL provision under the RBI ECL Directions 2026, Annex 4) - here on US data, portfolio project
+    tier: 3
+    tier_rationale: >-
+      Tier 3 for the provision (presentation); the IRACP calculation sets the transition impact
+      (dry run 0; +6.5m without RSA 64), so it is reviewed with the ECL model.
+    status: development (Module 10 built 2026-11-14)
+    development_log: models/reporting/CHANGELOG.md
+    design: docs/methodology/reporting_transition.md
+    config: config/rbi_iracp_2025.yaml
+    dependencies: [ecl_measurement, macro_scenarios]
+    overlays: []
+    limitations: [R-1, R-2, R-3, R-4, R-5, R-6, R-7, R-8]  # models/reporting/CHANGELOG.md
+    monitoring:
+      - Table 3 closing line vs closing data difference > 0.01 -> fail
+      - "|ECL - IRACP| < 10% of the IRACP additional provisions -> report both RSA 64 readings (R-8)"
+    validation:
+      status: not independently validated
+      last_validated: null
+
+  synthetic_india:
+    name: India adapter - SYNTHETIC Indian housing book (Module 12)
+    version: india-0.2.1
+    code_commit: 707801b
+    purpose: >-
+      Demonstrates the engine on Indian product features (repo-linked rates with tenure
+      extension, RBI LTV caps, RBI HPI, CIBIL / FOIR) with a synthetic book derived from US loans;
+      not used for any provision; NOT Indian risk estimates.
+    owner: Yash
+    developers: [Yash]
+    users: [model validation, reviewers (demonstration)]
+    intended_use: internal demonstration only (synthetic data)
+    tier: 3
+    tier_rationale: Tier 3 - synthetic book, no provision or disclosure use.
+    status: development (Module 12 built 2026-11-14)
+    development_log: docs/india_adapter.md
+    config: config/india.yaml
+    rbi_config: config/rbi_credit_facilities.yaml   # LTV caps, para 111 (verified 2026-11-15)
+    dependencies: [pd_12m, pd_pit, pd_lifetime, macro_scenarios, staging, ecl_measurement, reporting]
+    overlays: []
+    limitations: [I-1, I-2, I-3, I-4, I-5, I-6, I-7, I-8, I-9]   # docs/india_adapter.md section 8
+    monitoring:
+      - GDP base change (I-1) - re-check when a 2022-23 back series is published
+      - re-check the HPI splice when DBIE publishes a linked 2022-23 series (I-2)
+    validation:
+      status: not independently validated
+      last_validated: null

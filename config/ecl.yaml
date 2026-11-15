@@ -1,0 +1,106 @@
+# Staging (Module 6), ECL measurement (Module 7), floors (Module 8) - docs/methodology/staging.md, measurement_floors.md.
+# Developer / owner choices, NOT RBI values, unless a para is cited; floor values and bands live in
+# config/rbi_2026.yaml and are read from there.
+version: ecl-0.1.0
+rbi_specified: false
+
+staging:
+  sicr_pd:                                 # para 26 (lifetime vs lifetime); thresholds not RBI-specified
+    current_side: scenario-weighted lifetime PD from the reporting date (Module 4 scenarios, CO-3)
+    origination_side: lifetime PD expected at origination over the same remaining window (long-run
+      macro, Module 3 comparator)
+    ratio_threshold: 2.5                   # owner decision 2026-11-14
+    absolute_threshold: 0.005              # + 0.5 pp, both conditions required
+    sensitivities: [2.0, 3.0]              # ratio thresholds (absolute kept at 0.5 pp)
+  backstop:                                # paras 33-36: rebuttable presumption at > 30 dpd
+    dpd_buckets: ["30-59", "60-89"]        # Freddie status 01-02
+    rebuttals_applied: none                # no documented evidence; para 34-36 rebuttals not used
+  collateral:                              # Annex 1: collateral value falling with house prices
+    indexed_ltv_threshold: 100             # Stage 2 if indexed LTV >= 100%
+  restructured:                            # paras 6(3)(iii), 78, 80 (text quoted in docs/methodology/staging.md)
+    definition: Freddie modification flag (loss-mitigation modification = concession due to
+      financial difficulty, para 6(3)(iii)); each modification month (flag Y) is an event
+    treatment: text                        # primary (owner instruction 2026-11-14): time and
+                                           # performance since modification, conservative reading
+    sensitivities: [stage3, stage2]        # (b) upper bound: all modified Stage 3; (c) at least Stage 2
+    text_mapping:                          # ecl.staging.restructured; RSA Directions 2025 (owner
+                                           # reading 2026-11-14; quotes in docs/methodology/staging.md)
+      clock: monitoring and specified periods both start at implementation of the resolution
+        plan (= first modification month); one clock, no second period
+      base: Current Actual UPB in the modification month (= interest-bearing + non-interest-
+        bearing UPB; includes capitalised interest)
+      stage2_repaid: 0.10                  # Stage 3 -> 2: >= 10% of post-modification debt repaid
+      stage2_months_after_first_payment: 12   # and >= 12 months since first post-modification
+                                              # payment (RSA para 58 proviso); first payment = month
+                                              # after the modification month
+      stage1_repaid: 0.20                  # Stage 2 -> 1: >= 20% repaid (specified period), no SICR
+      miss_during_monitoring: no_upgrade   # RSA 61 / 62: a miss after implementation -> no upgrade
+                                           # without a fresh restructuring (owner decision 2026-11-14);
+                                           # sensitivity 'restart' = earlier clock-restart rule
+      fresh_restructuring: a later restructuring event (new modification month, flag Y; or a new
+        general deferral run) starts a new monitoring period
+      misses_counted_from: the month after implementation (first payment); the implementation month
+        itself is not tested
+      satisfactory_performance: no missed payment throughout (RSA para 6(14), any default); proxy =
+        no month at status 01+ or in RBI default; a miss -> Stage 3 and the clock (and base) restart
+      not_applicable: RSA para 59 (MSME) and para 60 (aggregate exposure >= Rs 100 crore, credit
+        rating) - individual housing loans are neither
+  deferrals:                               # owner decision 2026-11-14 (RSA 6(12), Chapter VI-A)
+    treatment: split                       # primary: calamity-linked -> calamity route; other ->
+                                           # general restructuring (RSA 52, 58, 61)
+    sensitivities: [unmapped, all_general]
+    deferral_event: first month of a run of payment-deferral months (status C)
+    calamity_link:
+      covid_window_rule: contiguous months around the peak in which panel-wide deferral months exceed
+        multiplier x the median month of the baseline years (derived from the data at each run)
+      baseline_years: [2023, 2025]         # post-COVID steady state of deferrals
+      multiplier: 2
+      disaster_lookback_months: 12         # or the Freddie disaster-delinquency flag within 12 months
+                                           # up to the deferral (Freddie flagged COVID hardship too)
+    calamity_eligibility: status current (or not reported) and not NPA in the month before the
+      hardship episode (contiguous relief months ending at the deferral) began (RSA 124J; IRACP 62A);
+      ineligible -> general restructuring (RSA 124K)
+    calamity_category: advances_restructured_standard   # ACPIR 82(4)(xiv) floors, rbi_2026.yaml;
+                                           # kept while the loan is live (no exit rule in the text)
+  stage3: RBI default at the reporting date (90+ dpd, REO acquired; paras 6(3)(i), 6(5), 8(1)),
+    NPA not yet upgraded (arrears not cleared), restructured Stage 3
+  npa_until_arrears_cleared: true        # para 8(10): an NPA is upgraded only when the entire
+                                         # arrears are repaid (proxy: back to status 00)
+  level: loan (one loan per borrower in the data; para 76 borrower-level Stage 3 approximated)
+  curing: para 77 - a non-restructured loan back to current (para 8(10)) is restaged by the Stage
+    1-2 rules
+
+measurement:
+  discount_rate: origination note rate (EIR proxy, paras 50-51)
+  default_point_in_year: 0.5
+  stage1: 12-month ECL = PD12 x LGD year 1 x EAD year 1 x DF(0.5y)
+  stage2: lifetime ECL = sum_y marginal PD_y x LGD_y x EAD_y x DF_y
+  stage3: LGD in default (months in default) x EAD now
+  weighting: ECL per scenario, then probability-weighted (paras 47-48); CO-3 and CO-5 in the
+    downside (config/overlays.yaml)
+
+floors:                                    # paras 82(4)-(5), 90; values in config/rbi_2026.yaml
+  product: housing_loan_to_individuals
+  exposure_base: EAD now (outstanding + accrued interest)
+  stage3_years: para 82(5) 'Duration in Stage 3' = unbroken run of Stage 3 months (NPA incl.
+    arrears not cleared, restructured Stage 3) ending at the date, / 12
+
+transition:
+  quarter_after: true                      # stage the quarter after each reporting date with the
+                                           # reporting date's scenario paths (stale macro; no look-ahead)
+sensitivity_grid:                          # Stage 2 floor margin: mapping x SICR ratio x LGD
+  restructured: [text, stage3, stage2, deferrals_unmapped, deferrals_all_general]
+  sicr_ratios: [2.0, 2.5, 3.0]
+  lgd: ["", "_opt1"]                       # champion (lgd-0.2.0), option 1 (lgd-0.1.0 cure model)
+
+anticipation:
+  horizon_months: 12                       # share of next-12m defaults that were Stage 2 at the date
+
+ltv_bands: [0, 60, 80, 90, 100, 120, .inf]
+ltv_labels: ["<=60", "60-80", "80-90", "90-100", "100-120", ">120"]
+
+reporting:                                 # Module 10 - Annex 4 tables and transition (src/ecl/reporting)
+  annex4_dates:
+    "2026-03-31": {previous: "2025-03-31", dry_run: true}    # dry-run first-application date
+    "2023-03-31": {previous: null, dry_run: false}           # comparison (no 2022 run)
+  old_rules_config: config/rbi_iracp_2025.yaml

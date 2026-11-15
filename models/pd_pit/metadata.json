@@ -1,0 +1,79 @@
+{
+  "version": "pdpit-0.2.1",
+  "previous_version": "pdpit-0.2.0",
+  "ttc_model": "pd12m-1.2.0",
+  "trained_at": "2026-11-15T13:20:33.518106+00:00",
+  "git": {
+    "commit": "424af508bb1265bfd5c040b5030b7788546640ae",
+    "clean": true
+  },
+  "target": "target_b18",
+  "rho": 0.15,
+  "rho_info": {
+    "rho": 0.15,
+    "basis": "Basel residential-mortgage benchmark; not identifiable from this data; chosen by the backtest by delinquency group (Yash, 2026-11-13)",
+    "profile_rho_hat": 0.01,
+    "profile_at_grid_boundary": true,
+    "rho_unit_variance_route2": 0.02573688430156311
+  },
+  "rho_sensitivities": [
+    0.1,
+    0.2
+  ],
+  "alignment": "W",
+  "satellite": {
+    "terms": [
+      [
+        "hpi_yoy",
+        "W"
+      ],
+      [
+        "gdp_yoy",
+        "W"
+      ]
+    ],
+    "params": {
+      "const": -0.5455646342619784,
+      "hpi_yoy[W]": 0.04382607165645812,
+      "gdp_yoy[W]": 0.09457865314929884
+    },
+    "sigma": 0.1834750985415582,
+    "r2": 0.7721071155356155,
+    "nobs": 68
+  },
+  "long_run_driver_means_2000_2016": {
+    "hpi_yoy": 3.273633869833838,
+    "gdp_yoy": 2.0644733314862784
+  },
+  "long_run_z": -0.20683901455101417,
+  "driver_rule": {
+    "min_abs_t": 2.0,
+    "core_drivers": [
+      "hpi_yoy",
+      "gdp_yoy"
+    ],
+    "core_max_error_increase": 0.05,
+    "optional_min_error_reduction": 0.05
+  },
+  "final_drivers_pass_rule": true,
+  "estimation_quarters": [
+    "2000Q1",
+    "2016Q4"
+  ],
+  "pd_floor_12m": 0.0003,
+  "crisis_peak": {
+    "actual": [
+      "2009Q1",
+      0.03330213695211356
+    ],
+    "predicted": [
+      "2008Q4",
+      0.027402199097395323
+    ]
+  },
+  "group_tolerance": [
+    0.8,
+    1.25
+  ],
+  "data_note": "US Freddie Mac data and US macro (FRED); not Indian risk estimates"
+}

@@ -1,0 +1,133 @@
+{
+  "label": "SYNTHETIC - derived from US loans; not Indian risk estimates",
+  "as_of": "2026-03-31",
+  "git": {
+    "commit": "424af508bb1265bfd5c040b5030b7788546640ae",
+    "clean": true
+  },
+  "config_version": "india-0.2.1",
+  "book": {
+    "us_loans": 348941,
+    "excluded_restructured_or_deferred": 11150,
+    "dropped_matured_under_indian_tenure": 7807,
+    "us_npa_share_eligible": 0.004892255783939593,
+    "pd_calibration_k": 1.6403603588553528,
+    "delinquent_loans_dropped": 0,
+    "delinquent_copies_added": 2848,
+    "k_applied_to_pd": 1.6403603588553528,
+    "loans": 332832,
+    "gnpa_exposure_share": 0.007927350779503003,
+    "exposure_rs_crore": 101296.45013721277
+  },
+  "scenarios": {
+    "var": {
+      "window": [
+        "2014Q1",
+        "2026Q1"
+      ],
+      "excluded": [
+        "2020Q1",
+        "2021Q4"
+      ],
+      "pairs_used": 39,
+      "means": {
+        "hpi_g": 1.605,
+        "gdp_yoy": 7.091,
+        "cpi_yoy": 4.671
+      },
+      "hpi_yoy_mean": 6.6323344249648475,
+      "A": [
+        [
+          -0.03,
+          0.146,
+          0.211
+        ],
+        [
+          -0.089,
+          0.068,
+          0.271
+        ],
+        [
+          0.007,
+          -0.157,
+          0.738
+        ]
+      ]
+    },
+    "repo_shift_pp": {
+      "downside": 0.75,
+      "central": 0.0,
+      "upside": -1.0
+    },
+    "repo_now": 5.25
+  },
+  "gdp_chain": {
+    "overlap_from": "2023Q2",
+    "overlap_to": "2025Q3",
+    "overlap_quarters": 10,
+    "mean_yoy_old_base": 7.878678540834078,
+    "mean_yoy_new_base": 7.306689044804048,
+    "corr_yoy": -0.007964804156421855,
+    "mean_abs_diff_pp": 1.3189570088431732,
+    "chained_from": "2012Q2",
+    "chained_to": "2026Q2",
+    "switch_after": "2023Q1"
+  },
+  "cpi_link": {
+    "link_year": 2025,
+    "ratio_mean": 1.898526546963702,
+    "ratio_min": 1.8936778775027123,
+    "ratio_max": 1.9027016633016056,
+    "ratio_range": 0.009023785798893291,
+    "linked_from": "2013-01",
+    "linked_to": "2026-10",
+    "imputed_months": [
+      "2020-May (F*)",
+      "2020-April (F*)"
+    ]
+  },
+  "provision": {
+    "stage1": {
+      "model_ecl": 77.84188767383796,
+      "provision": 241.83399464914194,
+      "exposure": 96733.59785965677,
+      "coverage_model": 0.0008047037368213336,
+      "coverage_provision": 0.0025,
+      "loans": 318908,
+      "floor_binds": true
+    },
+    "stage2": {
+      "model_ecl": 112.01797443670348,
+      "provision": 112.01797443670348,
+      "exposure": 3759.839784599878,
+      "coverage_model": 0.029793283983940936,
+      "coverage_provision": 0.029793283983940936,
+      "loans": 11361,
+      "floor_binds": false
+    },
+    "stage3": {
+      "model_ecl": 47.53981415666125,
+      "provision": 114.92975388867245,
+      "exposure": 803.0124929561207,
+      "coverage_model": 0.05920183630226409,
+      "coverage_provision": 0.14312324515099742,
+      "loans": 2563,
+      "floor_binds": 2349
+    },
+    "total": {
+      "model_ecl": 237.3996762672027,
+      "provision": 468.7817229745179,
+      "exposure": 101296.45013721277,
+      "coverage_model": 0.0023436129888621867,
+      "coverage_provision": 0.004627819852912139
+    }
+  },
+  "transition": {
+    "ecl_allowance": 468.78172297451795,
+    "iracp_provision": 395.4250884981484,
+    "impact": 73.35663447636955,
+    "formula": "max(0, ECL at 2027-04-01 - IRACP provisions at 2027-03-31)",
+    "paras": "107-108"
+  },
+  "markdown": "reports\\summary\\india\\annex4_2026-03.md"
+}

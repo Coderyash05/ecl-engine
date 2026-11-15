@@ -1,0 +1,7 @@
+# Table 7 ECL data (forward-looking PD and LGD)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+Loan product category,PD Stage 1 (12-month),PD Stage 2 (lifetime),PD Stage 3,LGD Stage 1,LGD Stage 2 (implied lifetime),LGD Stage 3 (in default)
+Housing loans to individuals (item (xi)(a)),0.004330606933224199,0.3050722524577656,1.0,0.10757438473412412,0.06479364078314247,0.104798082829735
+Advances restructured and classified as standard - calamity (item (xiv)),0.006439340221661282,0.3692724866093245,1.0,0.037869882125294616,0.039035963891302386,0.061681079407359285

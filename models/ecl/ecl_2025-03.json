@@ -1,0 +1,988 @@
+{
+  "as_on": "2025-03-31",
+  "version": "ecl-0.1.0",
+  "git": {
+    "commit": "424af508bb1265bfd5c040b5030b7788546640ae",
+    "clean": true
+  },
+  "weights": {
+    "downside": 0.2,
+    "central": 0.6,
+    "upside": 0.2
+  },
+  "by_stage": {
+    "stage1": {
+      "model_ecl": 37664565.54987412,
+      "floor": 223438080.3412,
+      "provision": 223438080.3412,
+      "exposure": 73509514944.99998,
+      "binds": true,
+      "loans": 321097,
+      "by_category": {
+        "xi_a": {
+          "model_ecl": 37404906.818127364,
+          "floor": 181686192.99519998,
+          "provision": 181686192.99519998,
+          "binds": true,
+          "exposure": 72674477198.07999,
+          "loans": 316835
+        },
+        "xiv": {
+          "model_ecl": 259658.73174675833,
+          "floor": 41751887.34600001,
+          "provision": 41751887.34600001,
+          "binds": true,
+          "exposure": 835037746.9200001,
+          "loans": 4262
+        }
+      },
+      "coverage_model": 0.0005123767389576009,
+      "coverage_provision": 0.0030395803932100076
+    },
+    "stage2": {
+      "model_ecl": 39682152.60061402,
+      "floor": 34230773.24182126,
+      "provision": 45163106.78509925,
+      "exposure": 1903333296.0797741,
+      "binds": false,
+      "loans": 8078,
+      "by_category": {
+        "xi_a": {
+          "model_ecl": 38479843.49024673,
+          "floor": 27547509.946968734,
+          "provision": 38479843.49024673,
+          "binds": false,
+          "exposure": 1836500663.131249,
+          "loans": 7762
+        },
+        "xiv": {
+          "model_ecl": 1202309.1103672893,
+          "floor": 6683263.294852527,
+          "provision": 6683263.294852527,
+          "binds": true,
+          "exposure": 66832632.948525265,
+          "loans": 316
+        }
+      },
+      "coverage_model": 0.020848767098408827,
+      "coverage_provision": 0.023728427847145874
+    },
+    "stage3": {
+      "model_ecl": 59061894.17094982,
+      "floor": 854412269.9215548,
+      "provision": 857253058.6195893,
+      "binds_accounts": 6628,
+      "accounts": 6924,
+      "exposure": 1559054580.8397596,
+      "accounts_xiv": 114,
+      "coverage_model": 0.037883147194973175,
+      "coverage_provision": 0.549854424056048
+    },
+    "total": {
+      "model_ecl": 136408612.32143795,
+      "provision": 1125854245.7458885,
+      "exposure": 76971902821.91953,
+      "coverage_model": 0.0017721870880213248,
+      "coverage_provision": 0.014626821014814193
+    }
+  },
+  "stage_mix": [
+    {
+      "stage": 1,
+      "loans": 321097,
+      "ead": 73509514945.0,
+      "share_loans": 0.9553643420539781,
+      "share_ead": 0.9550175096368603
+    },
+    {
+      "stage": 2,
+      "loans": 8078,
+      "ead": 1903333296.0797741,
+      "share_loans": 0.024034585047857923,
+      "share_ead": 0.024727637310503855
+    },
+    {
+      "stage": 3,
+      "loans": 6924,
+      "ead": 1559054580.8397596,
+      "share_loans": 0.020601072898163934,
+      "share_ead": 0.020254853052636017
+    }
+  ],
+  "stage_rules": {
+    "2 backstop_30dpd": 3171,
+    "2 collateral_ltv": 3,
+    "2 restructured": 344,
+    "2 sicr_pd": 4560,
+    "3 default": 2044,
+    "3 default_arrears": 201,
+    "3 restructured": 4679
+  },
+  "rules_fired_any": {
+    "backstop_30dpd": 3943,
+    "collateral_ltv": 17,
+    "default": 2044,
+    "default_arrears": 201,
+    "restructured": 5613,
+    "sicr_pd": 9442
+  },
+  "sicr_comparator_missing": 0,
+  "sensitivities": {
+    "sicr_ratio_2.0": {
+      "stage_mix": {
+        "1": 316715,
+        "2": 12460,
+        "3": 6924
+      },
+      "model_ecl": 141424562.96072364,
+      "provision": 1130793474.3430676,
+      "exposure": 76971902821.91954,
+      "coverage_model": 0.0018373530830843603,
+      "coverage_provision": 0.01469099025600609
+    },
+    "restructured_text": {
+      "stage_mix": {
+        "1": 321097,
+        "2": 8078,
+        "3": 6924
+      },
+      "by_stage": {
+        "stage1": {
+          "model_ecl": 37664565.54987412,
+          "floor": 223438080.3412,
+          "provision": 223438080.3412,
+          "exposure": 73509514944.99998,
+          "binds": true,
+          "loans": 321097,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 37404906.818127364,
+              "floor": 181686192.99519998,
+              "provision": 181686192.99519998,
+              "binds": true,
+              "exposure": 72674477198.07999,
+              "loans": 316835
+            },
+            "xiv": {
+              "model_ecl": 259658.73174675833,
+              "floor": 41751887.34600001,
+              "provision": 41751887.34600001,
+              "binds": true,
+              "exposure": 835037746.9200001,
+              "loans": 4262
+            }
+          },
+          "coverage_model": 0.0005123767389576009,
+          "coverage_provision": 0.0030395803932100076
+        },
+        "stage2": {
+          "model_ecl": 39682152.60061402,
+          "floor": 34230773.24182126,
+          "provision": 45163106.78509925,
+          "exposure": 1903333296.0797741,
+          "binds": false,
+          "loans": 8078,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 38479843.49024673,
+              "floor": 27547509.946968734,
+              "provision": 38479843.49024673,
+              "binds": false,
+              "exposure": 1836500663.131249,
+              "loans": 7762
+            },
+            "xiv": {
+              "model_ecl": 1202309.1103672893,
+              "floor": 6683263.294852527,
+              "provision": 6683263.294852527,
+              "binds": true,
+              "exposure": 66832632.948525265,
+              "loans": 316
+            }
+          },
+          "coverage_model": 0.020848767098408827,
+          "coverage_provision": 0.023728427847145874
+        },
+        "stage3": {
+          "model_ecl": 59061894.17094982,
+          "floor": 854412269.9215548,
+          "provision": 857253058.6195893,
+          "binds_accounts": 6628,
+          "accounts": 6924,
+          "exposure": 1559054580.8397596,
+          "accounts_xiv": 114,
+          "coverage_model": 0.037883147194973175,
+          "coverage_provision": 0.549854424056048
+        },
+        "total": {
+          "model_ecl": 136408612.32143795,
+          "provision": 1125854245.7458885,
+          "exposure": 76971902821.91953,
+          "coverage_model": 0.0017721870880213248,
+          "coverage_provision": 0.014626821014814193
+        }
+      }
+    },
+    "sicr_ratio_3.0": {
+      "stage_mix": {
+        "1": 322988,
+        "2": 6187,
+        "3": 6924
+      },
+      "model_ecl": 132999338.83838934,
+      "provision": 1121465700.909803,
+      "exposure": 76971902821.91954,
+      "coverage_model": 0.0017278946467790151,
+      "coverage_provision": 0.014569806121389525
+    },
+    "restructured_stage3": {
+      "stage_mix": {
+        "1": 320720,
+        "2": 7681,
+        "3": 7698
+      },
+      "by_stage": {
+        "stage1": {
+          "model_ecl": 37657974.4985736,
+          "floor": 223336941.29335,
+          "provision": 223336941.29335,
+          "exposure": 73469059325.86,
+          "binds": true,
+          "loans": 320720,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 37398315.766826846,
+              "floor": 181585053.94735,
+              "provision": 181585053.94735,
+              "binds": true,
+              "exposure": 72634021578.94,
+              "loans": 316458
+            },
+            "xiv": {
+              "model_ecl": 259658.73174675833,
+              "floor": 41751887.34600001,
+              "provision": 41751887.34600001,
+              "binds": true,
+              "exposure": 835037746.9200001,
+              "loans": 4262
+            }
+          },
+          "coverage_model": 0.000512569166450707,
+          "coverage_provision": 0.003039877512284124
+        },
+        "stage2": {
+          "model_ecl": 39530541.354710616,
+          "floor": 33288737.13694209,
+          "provision": 45011495.53919585,
+          "exposure": 1840530889.0878294,
+          "binds": false,
+          "loans": 7681,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 38328232.244343325,
+              "floor": 26605473.84208956,
+              "provision": 38328232.244343325,
+              "binds": false,
+              "exposure": 1773698256.1393042,
+              "loans": 7365
+            },
+            "xiv": {
+              "model_ecl": 1202309.1103672893,
+              "floor": 6683263.294852527,
+              "provision": 6683263.294852527,
+              "binds": true,
+              "exposure": 66832632.948525265,
+              "loans": 316
+            }
+          },
+          "coverage_model": 0.02147779295043618,
+          "coverage_provision": 0.024455713189091673
+        },
+        "stage3": {
+          "model_ecl": 59284820.98106203,
+          "floor": 961146295.1900609,
+          "provision": 963987083.8880954,
+          "binds_accounts": 7402,
+          "accounts": 7698,
+          "exposure": 1662312606.9717042,
+          "accounts_xiv": 114,
+          "coverage_model": 0.0356640626633178,
+          "coverage_provision": 0.5799072207268078
+        },
+        "total": {
+          "model_ecl": 136473336.83434623,
+          "provision": 1232335520.7206411,
+          "exposure": 76971902821.91954,
+          "coverage_model": 0.001773027972948621,
+          "coverage_provision": 0.016010199508406917
+        }
+      }
+    },
+    "restructured_stage2": {
+      "stage_mix": {
+        "1": 320720,
+        "2": 13134,
+        "3": 2245
+      },
+      "by_stage": {
+        "stage1": {
+          "model_ecl": 37657974.4985736,
+          "floor": 223336941.29335,
+          "provision": 223336941.29335,
+          "exposure": 73469059325.86,
+          "binds": true,
+          "loans": 320720,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 37398315.766826846,
+              "floor": 181585053.94735,
+              "provision": 181585053.94735,
+              "binds": true,
+              "exposure": 72634021578.94,
+              "loans": 316458
+            },
+            "xiv": {
+              "model_ecl": 259658.73174675833,
+              "floor": 41751887.34600001,
+              "provision": 41751887.34600001,
+              "binds": true,
+              "exposure": 835037746.9200001,
+              "loans": 4262
+            }
+          },
+          "coverage_model": 0.000512569166450707,
+          "coverage_provision": 0.003039877512284124
+        },
+        "stage2": {
+          "model_ecl": 49529999.21072359,
+          "floor": 50131752.49301311,
+          "provision": 55010953.39520882,
+          "exposure": 2963398579.492564,
+          "binds": false,
+          "loans": 13134,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 48327690.100356296,
+              "floor": 43448489.19816058,
+              "provision": 48327690.100356296,
+              "binds": false,
+              "exposure": 2896565946.544039,
+              "loans": 12818
+            },
+            "xiv": {
+              "model_ecl": 1202309.1103672893,
+              "floor": 6683263.294852527,
+              "provision": 6683263.294852527,
+              "binds": true,
+              "exposure": 66832632.948525265,
+              "loans": 316
+            }
+          },
+          "coverage_model": 0.016713917443803603,
+          "coverage_provision": 0.018563467559139003
+        },
+        "stage3": {
+          "model_ecl": 49285363.125049055,
+          "floor": 111562224.2865515,
+          "provision": 114554365.65219994,
+          "binds_accounts": 1918,
+          "accounts": 2245,
+          "exposure": 539444916.5669694,
+          "accounts_xiv": 114,
+          "coverage_model": 0.09136310605854142,
+          "coverage_provision": 0.21235600176052188
+        },
+        "total": {
+          "model_ecl": 136473336.83434623,
+          "provision": 392902260.3407588,
+          "exposure": 76971902821.91954,
+          "coverage_model": 0.001773027972948621,
+          "coverage_provision": 0.0051044893777638396
+        }
+      }
+    },
+    "restructured_deferrals_unmapped": {
+      "stage_mix": {
+        "1": 322374,
+        "2": 8488,
+        "3": 5237
+      },
+      "by_stage": {
+        "stage1": {
+          "model_ecl": 37880165.836272076,
+          "floor": 184452113.83767503,
+          "provision": 184452113.83767503,
+          "exposure": 73780845535.07,
+          "binds": true,
+          "loans": 322374,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 37880165.836272076,
+              "floor": 184452113.83767503,
+              "provision": 184452113.83767503,
+              "binds": true,
+              "exposure": 73780845535.07,
+              "loans": 322374
+            }
+          },
+          "coverage_model": 0.0005134146344021853,
+          "coverage_provision": 0.0025
+        },
+        "stage2": {
+          "model_ecl": 43084280.84895506,
+          "floor": 30193505.479659643,
+          "provision": 43084280.84895506,
+          "exposure": 2012900365.310643,
+          "binds": false,
+          "loans": 8488,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 43084280.84895506,
+              "floor": 30193505.479659643,
+              "provision": 43084280.84895506,
+              "binds": false,
+              "exposure": 2012900365.310643,
+              "loans": 8488
+            }
+          },
+          "coverage_model": 0.02140408019763364,
+          "coverage_provision": 0.02140408019763364
+        },
+        "stage3": {
+          "model_ecl": 54590933.03516078,
+          "floor": 629481102.5886204,
+          "provision": 632418478.470053,
+          "binds_accounts": 4918,
+          "accounts": 5237,
+          "exposure": 1178156921.5388908,
+          "accounts_xiv": 0,
+          "coverage_model": 0.046335876008651654,
+          "coverage_provision": 0.5367862861969164
+        },
+        "total": {
+          "model_ecl": 135555379.7203879,
+          "provision": 859954873.1566831,
+          "exposure": 76971902821.91954,
+          "coverage_model": 0.0017611021002560607,
+          "coverage_provision": 0.011172321868490835
+        }
+      }
+    },
+    "restructured_deferrals_all_general": {
+      "stage_mix": {
+        "1": 317528,
+        "2": 8812,
+        "3": 9759
+      },
+      "by_stage": {
+        "stage1": {
+          "model_ecl": 37410214.21676893,
+          "floor": 181853671.82675,
+          "provision": 181853671.82675,
+          "exposure": 72741468730.7,
+          "binds": true,
+          "loans": 317528,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 37410214.21676893,
+              "floor": 181853671.82675,
+              "provision": 181853671.82675,
+              "binds": true,
+              "exposure": 72741468730.7,
+              "loans": 317528
+            }
+          },
+          "coverage_model": 0.0005142900586083468,
+          "coverage_provision": 0.0025
+        },
+        "stage2": {
+          "model_ecl": 38753630.9257025,
+          "floor": 30414775.7017328,
+          "provision": 38753630.9257025,
+          "exposure": 2027651713.4488533,
+          "binds": false,
+          "loans": 8812,
+          "by_category": {
+            "xi_a": {
+              "model_ecl": 38753630.9257025,
+              "floor": 30414775.7017328,
+              "provision": 38753630.9257025,
+              "binds": false,
+              "exposure": 2027651713.4488533,
+              "loans": 8812
+            }
+          },
+          "coverage_model": 0.01911256783828326,
+          "coverage_provision": 0.01911256783828326
+        },
+        "stage3": {
+          "model_ecl": 61783738.86311355,
+          "floor": 1442576491.595667,
+          "provision": 1445417280.2937014,
+          "binds_accounts": 9463,
+          "accounts": 9759,
+          "exposure": 2202782377.770681,
+          "accounts_xiv": 0,
+          "coverage_model": 0.0280480448212236,
+          "coverage_provision": 0.6561779751282246
+        },
+        "total": {
+          "model_ecl": 137947584.00558499,
+          "provision": 1666024583.046154,
+          "exposure": 76971902821.91953,
+          "coverage_model": 0.0017921810290274028,
+          "coverage_provision": 0.02164458097002787
+        }
+      }
+    },
+    "lgd_fallback_65_70": {
+      "model_ecl": 981118767.4534297,
+      "provision": 1629048632.479512,
+      "exposure": 76971902821.91953,
+      "coverage_model": 0.012746453335359582,
+      "coverage_provision": 0.021164198529019643
+    },
+    "lgd_option1": {
+      "model_ecl": 171176378.1637203,
+      "provision": 1140384539.7131264,
+      "exposure": 76971902821.91953,
+      "coverage_model": 0.0022238813370607474,
+      "coverage_provision": 0.014815595014605455
+    },
+    "no_overlays_co3_co5": {
+      "stage1": {
+        "model_ecl": 33129432.149368204,
+        "floor": 223438080.3412,
+        "provision": 223438080.3412,
+        "exposure": 73509514944.99998,
+        "binds": true,
+        "loans": 321097,
+        "by_category": {
+          "xi_a": {
+            "model_ecl": 32901123.75594784,
+            "floor": 181686192.99519998,
+            "provision": 181686192.99519998,
+            "binds": true,
+            "exposure": 72674477198.07999,
+            "loans": 316835
+          },
+          "xiv": {
+            "model_ecl": 228308.39342036587,
+            "floor": 41751887.34600001,
+            "provision": 41751887.34600001,
+            "binds": true,
+            "exposure": 835037746.9200001,
+            "loans": 4262
+          }
+        },
+        "coverage_model": 0.0004506822303773292,
+        "coverage_provision": 0.0030395803932100076
+      },
+      "stage2": {
+        "model_ecl": 35799205.151402,
+        "floor": 34230773.24182126,
+        "provision": 41416943.472954534,
+        "exposure": 1903333296.0797741,
+        "binds": false,
+        "loans": 8078,
+        "by_category": {
+          "xi_a": {
+            "model_ecl": 34733680.17810201,
+            "floor": 27547509.946968734,
+            "provision": 34733680.17810201,
+            "binds": false,
+            "exposure": 1836500663.131249,
+            "loans": 7762
+          },
+          "xiv": {
+            "model_ecl": 1065524.9732999913,
+            "floor": 6683263.294852527,
+            "provision": 6683263.294852527,
+            "binds": true,
+            "exposure": 66832632.948525265,
+            "loans": 316
+          }
+        },
+        "coverage_model": 0.018808689589540784,
+        "coverage_provision": 0.02176021591082313
+      },
+      "stage3": {
+        "model_ecl": 58023867.53325558,
+        "floor": 854412269.9215548,
+        "provision": 857252347.7478514,
+        "binds_accounts": 6628,
+        "accounts": 6924,
+        "exposure": 1559054580.8397596,
+        "accounts_xiv": 114,
+        "coverage_model": 0.03721734200094647,
+        "coverage_provision": 0.5498539680927054
+      },
+      "total": {
+        "model_ecl": 126952504.83402577,
+        "provision": 1122107371.562006,
+        "exposure": 76971902821.91953,
+        "coverage_model": 0.0016493356689874258,
+        "coverage_provision": 0.014578142548432102
+      }
+    }
+  },
+  "restructuring": {
+    "loans": 5530,
+    "ead": 1138740307.0976143,
+    "months_since_modification_quartiles": [
+      20.0,
+      39.0,
+      78.0
+    ],
+    "share_missed_payment_since_modification": 0.546112115732369,
+    "share_current_now": 0.8817359855334539,
+    "restructuring_state": {
+      "1.0": 430,
+      "2.0": 344,
+      "3.0": 4756
+    },
+    "final_stage": {
+      "1": 377,
+      "2": 397,
+      "3": 4756
+    },
+    "by_reason": [
+      {
+        "restr_state": 1.0,
+        "reason": "graduated: >= 20% repaid, no missed payment",
+        "fresh_restructuring": false,
+        "stage": 1,
+        "loans": 363,
+        "ead": 38642250.76
+      },
+      {
+        "restr_state": 1.0,
+        "reason": "graduated: >= 20% repaid, no missed payment",
+        "fresh_restructuring": false,
+        "stage": 2,
+        "loans": 51,
+        "ead": 4660776.991944792
+      },
+      {
+        "restr_state": 1.0,
+        "reason": "graduated: >= 20% repaid, no missed payment",
+        "fresh_restructuring": true,
+        "stage": 1,
+        "loans": 14,
+        "ead": 1813368.38
+      },
+      {
+        "restr_state": 1.0,
+        "reason": "graduated: >= 20% repaid, no missed payment",
+        "fresh_restructuring": true,
+        "stage": 2,
+        "loans": 2,
+        "ead": 179233.66999999998
+      },
+      {
+        "restr_state": 2.0,
+        "reason": "Stage 2: >= 10% and < 20% repaid",
+        "fresh_restructuring": false,
+        "stage": 2,
+        "loans": 320,
+        "ead": 53492376.24
+      },
+      {
+        "restr_state": 2.0,
+        "reason": "Stage 2: >= 10% and < 20% repaid",
+        "fresh_restructuring": true,
+        "stage": 2,
+        "loans": 24,
+        "ead": 4470020.09
+      },
+      {
+        "restr_state": 3.0,
+        "reason": "Stage 3: < 10% repaid (time met)",
+        "fresh_restructuring": false,
+        "stage": 3,
+        "loans": 1302,
+        "ead": 312868990.98
+      },
+      {
+        "restr_state": 3.0,
+        "reason": "Stage 3: < 10% repaid (time met)",
+        "fresh_restructuring": true,
+        "stage": 3,
+        "loans": 118,
+        "ead": 25038302.83
+      },
+      {
+        "restr_state": 3.0,
+        "reason": "Stage 3: < 12 months (repayment met)",
+        "fresh_restructuring": false,
+        "stage": 3,
+        "loans": 5,
+        "ead": 565775.7
+      },
+      {
+        "restr_state": 3.0,
+        "reason": "Stage 3: < 12 months and < 10% repaid",
+        "fresh_restructuring": false,
+        "stage": 3,
+        "loans": 703,
+        "ead": 188232805.6580033
+      },
+      {
+        "restr_state": 3.0,
+        "reason": "Stage 3: < 12 months and < 10% repaid",
+        "fresh_restructuring": true,
+        "stage": 3,
+        "loans": 153,
+        "ead": 37679954.30192292
+      },
+      {
+        "restr_state": 3.0,
+        "reason": "Stage 3: missed payment after implementation (RSA 61 / 62)",
+        "fresh_restructuring": false,
+        "stage": 3,
+        "loans": 2035,
+        "ead": 386567060.0707115
+      },
+      {
+        "restr_state": 3.0,
+        "reason": "Stage 3: missed payment after implementation (RSA 61 / 62)",
+        "fresh_restructuring": true,
+        "stage": 3,
+        "loans": 440,
+        "ead": 84529391.42503166
+      }
+    ],
+    "repaid_since_modification": {
+      "<=0%": 477,
+      "0-5%": 2372,
+      "5-10%": 1000,
+      "10-15%": 548,
+      "15-20%": 306,
+      "20-30%": 321,
+      "30-50%": 367,
+      ">50%": 139
+    },
+    "repaid_on_current_clock": {
+      "<=0%": 2658,
+      "0-5%": 1552,
+      "5-10%": 541,
+      "10-15%": 224,
+      "15-20%": 123,
+      "20-30%": 419,
+      "30-50%": 10,
+      ">50%": 3
+    },
+    "repaid_since_modification_quartiles": [
+      0.013837233019299816,
+      0.04664718408983204,
+      0.12340869441706825
+    ]
+  },
+  "stage3_duration_steps": {
+    "0_published": {
+      "stage_mix": {
+        "1": 322499,
+        "2": 8784,
+        "3": 4816
+      },
+      "stage3_provision": 388608898.5029219,
+      "total_provision": 617391343.0545385,
+      "stage3_duration_bands": {
+        "0-1y": 2142,
+        "1-2y": 567,
+        "2-3y": 641,
+        "3-4y": 540,
+        ">4y": 926
+      }
+    },
+    "1_unbroken_spell": {
+      "stage_mix": {
+        "1": 322499,
+        "2": 8784,
+        "3": 4816
+      },
+      "stage3_provision": 588654424.7210534,
+      "total_provision": 817436869.27267,
+      "stage3_duration_bands": {
+        "0-1y": 1631,
+        "1-2y": 627,
+        "2-3y": 332,
+        "3-4y": 281,
+        ">4y": 1945
+      }
+    },
+    "2_para_8_10": {
+      "stage_mix": {
+        "1": 322499,
+        "2": 8632,
+        "3": 4968
+      },
+      "stage3_provision": 598041316.239584,
+      "total_provision": 825677489.3989649,
+      "stage3_duration_bands": {
+        "0-1y": 1705,
+        "1-2y": 670,
+        "2-3y": 344,
+        "3-4y": 273,
+        ">4y": 1976
+      }
+    },
+    "3_rsa_61_fresh_restructuring": {
+      "stage_mix": {
+        "1": 322374,
+        "2": 8488,
+        "3": 5237
+      },
+      "stage3_provision": 632418478.470053,
+      "total_provision": 859954873.1566831,
+      "stage3_duration_bands": {
+        "0-1y": 1693,
+        "1-2y": 663,
+        "2-3y": 340,
+        "3-4y": 271,
+        ">4y": 2270
+      }
+    },
+    "4_deferral_split_primary": {
+      "stage_mix": {
+        "1": 321097,
+        "2": 8078,
+        "3": 6924
+      },
+      "stage3_provision": 857253058.6195893,
+      "total_provision": 1125854245.7458885,
+      "stage3_duration_bands": {
+        "0-1y": 2024,
+        "1-2y": 939,
+        "2-3y": 487,
+        "3-4y": 428,
+        ">4y": 3046
+      }
+    }
+  },
+  "deferrals": {
+    "by_route_stage": [
+      {
+        "route": "calamity route (xiv)",
+        "stage": 1,
+        "loans": 4262,
+        "ead": 835037746.92
+      },
+      {
+        "route": "calamity route (xiv)",
+        "stage": 2,
+        "loans": 316,
+        "ead": 66832632.948525265
+      },
+      {
+        "route": "calamity route (xiv)",
+        "stage": 3,
+        "loans": 9,
+        "ead": 1393417.4916989582
+      },
+      {
+        "route": "general restructuring (deferral)",
+        "stage": 1,
+        "loans": 92,
+        "ead": 8202541.81
+      },
+      {
+        "route": "general restructuring (deferral)",
+        "stage": 2,
+        "loans": 146,
+        "ead": 25720898.14288229
+      },
+      {
+        "route": "general restructuring (deferral)",
+        "stage": 3,
+        "loans": 1717,
+        "ead": 386633040.97468406
+      },
+      {
+        "route": "modified (general)",
+        "stage": 1,
+        "loans": 24,
+        "ead": 3151708.4699999997
+      },
+      {
+        "route": "modified (general)",
+        "stage": 2,
+        "loans": 7,
+        "ead": 949516.1499999999
+      },
+      {
+        "route": "modified (general)",
+        "stage": 3,
+        "loans": 650,
+        "ead": 140411552.19308525
+      }
+    ],
+    "calamity_linked_loans": 6494
+  },
+  "covid_window": [
+    "2020-07-01",
+    "2022-04-01"
+  ],
+  "per_scenario_100pct": {
+    "downside": {
+      "model_ecl": 192571228.72352538,
+      "provision": 1150427111.033588,
+      "exposure": 76971902821.91953,
+      "coverage_model": 0.00250183796506959,
+      "coverage_provision": 0.014946065627287276
+    },
+    "central": {
+      "model_ecl": 125551085.8176323,
+      "provision": 1121251124.144625,
+      "exposure": 76971902821.91953,
+      "coverage_model": 0.0016311287783557136,
+      "coverage_provision": 0.014567018392915744
+    },
+    "upside": {
+      "model_ecl": 112818575.43076748,
+      "provision": 1115105635.0284336,
+      "exposure": 76971902821.91953,
+      "coverage_model": 0.0014657111399698928,
+      "coverage_provision": 0.014487177712214248
+    }
+  },
+  "transition_from_to": {
+    "Stage 1": {
+      "Stage 1": 0.9708,
+      "Stage 2": 0.0072,
+      "Stage 3": 0.0004,
+      "exited": 0.0217
+    },
+    "Stage 2": {
+      "Stage 1": 0.259,
+      "Stage 2": 0.652,
+      "Stage 3": 0.0609,
+      "exited": 0.0281
+    },
+    "Stage 3": {
+      "Stage 1": 0.0103,
+      "Stage 2": 0.0246,
+      "Stage 3": 0.9265,
+      "exited": 0.0387
+    }
+  },
+  "anticipation": {
+    "months_observed": 12,
+    "defaults": 3238,
+    "share_stage2_at_date": 0.3471278567016677,
+    "share_stage2_by_rule": {
+      "backstop_30dpd": 0.751779359430605,
+      "sicr_pd": 0.24466192170818504,
+      "restructured": 0.0035587188612099642
+    },
+    "default_rate_stage1": 0.004241708891705622,
+    "default_rate_stage2": 0.13914335231492944,
+    "stage2_share_of_loans": 0.024181646734819116
+  },
+  "overrides": {
+    "log_head_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "applied": [],
+    "rejected": [],
+    "unmatched": []
+  }
+}

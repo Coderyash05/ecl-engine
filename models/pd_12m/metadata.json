@@ -1,0 +1,66 @@
+{
+  "version": "pd12m-1.2.0",
+  "trained_at": "2026-11-15T13:17:31.963689+00:00",
+  "git": {
+    "commit": "424af508bb1265bfd5c040b5030b7788546640ae",
+    "clean": true
+  },
+  "target": "target_b18",
+  "features": [
+    "dlq_state",
+    "credit_score",
+    "current_ltv",
+    "rate_spread",
+    "orig_dti",
+    "num_borrowers",
+    "loan_age",
+    "loan_purpose",
+    "channel"
+  ],
+  "dummy_features": [
+    "dlq_state"
+  ],
+  "dlq_state_coefficients_monotonic": true,
+  "previous_version": "v1.1.0",
+  "binning": {
+    "min_bin_size_continuous": 0.05,
+    "state_min_share": 0.005,
+    "state_min_defaults": 500
+  },
+  "non_default_sampling_rate": 0.15,
+  "sample_seed": 20261112,
+  "label_end": "2023-12-01",
+  "data_end": "2026-06-01",
+  "lgbm_best_iteration": 298,
+  "lgbm_params": {
+    "objective": "binary",
+    "learning_rate": 0.05,
+    "num_leaves": 31,
+    "min_data_in_leaf": 2000,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "monotone_constraints_method": "advanced",
+    "verbose": -1,
+    "num_threads": 8,
+    "deterministic": true,
+    "force_row_wise": true
+  },
+  "lgbm_monotone_constraints": {
+    "dlq_state": 1,
+    "credit_score": -1,
+    "current_ltv": 1,
+    "rate_spread": 1,
+    "orig_dti": 1,
+    "num_borrowers": -1,
+    "loan_age": 0,
+    "loan_purpose": 0,
+    "channel": 0
+  },
+  "scaling": {
+    "base_score": 600,
+    "base_odds": 50,
+    "pdo": 20
+  }
+}

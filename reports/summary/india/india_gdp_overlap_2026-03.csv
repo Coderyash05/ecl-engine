@@ -1,0 +1,12 @@
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+quarter,yoy_base_2011_12,yoy_base_2022_23
+2023Q2,9.66,6.58
+2023Q3,9.34,7.54
+2023Q4,9.51,7.68
+2024Q1,8.35,7.45
+2024Q2,6.51,7.51
+2024Q3,5.61,7.3
+2024Q4,6.37,7.42
+2025Q1,7.38,6.62
+2025Q2,7.81,6.86
+2025Q3,8.23,8.12

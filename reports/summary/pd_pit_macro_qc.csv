@@ -1,0 +1,6 @@
+series,column,frequency,first,last,quarters,short_or_gappy_quarters,missing_values
+USSTHPI,hpi,Q,1975Q1,2026Q2,206,,0
+A191RL1Q225SBEA,gdp_qoq_saar,Q,1947Q2,2026Q3,318,,0
+MORTGAGE30US,mortgage30,W,1971Q2,2026Q3,222,2026Q4 (7/7),0
+UNRATE,unrate,M,1948Q1,2026Q3,315,2025Q4 (2/3); 2026Q4 (1/1),1
+FEDFUNDS,fedfunds,M,1954Q3,2026Q3,289,2026Q4 (1/1),0

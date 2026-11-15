@@ -1,0 +1,6 @@
+# Table 4 Approach for ECL (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+Financial instrument,Brief of the product,Category,PD-TTC Stage 1,PD-TTC Stage 2,PD approach,"LGD (12-month, scenario-weighted, Stages 1-2)",LGD approach
+Loans (SYNTHETIC),"Synthetic Indian floating-rate (repo-linked) housing loans to individuals, derived from US loans",Housing loans to individuals (item (xi)(a)),0.008908471718649221,0.18833672457640588,"US scorecard rank order, US hazard macro sensitivity at Indian Z (HPI only), calibrated to GNPA 0.5%; employment and payment-shock multipliers (assumptions)",0.0916306712955374,"P(no cure) x collateral severity with RBI HPI-indexed values, realisation haircut, recovery time (assumptions)"

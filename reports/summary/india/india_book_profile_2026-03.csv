@@ -1,0 +1,33 @@
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+dimension,value,loans,exposure_share
+CIBIL band,"(299, 650]",20062,0.045486700951037205
+CIBIL band,"(650, 700]",32704,0.08707413873928535
+CIBIL band,"(700, 750]",95523,0.2870042939623306
+CIBIL band,"(750, 800]",108922,0.35683329131080005
+CIBIL band,"(800, 900]",75547,0.22341134818313438
+ticket (Rs lakh),"(0.0, 30.0]",164183,0.24129702819271945
+ticket (Rs lakh),"(30.0, 75.0]",145384,0.5481733930344526
+ticket (Rs lakh),"(75.0, inf]",23265,0.210529578772828
+LTV cap at origination,75.0,23265,0.210529578772828
+LTV cap at origination,80.0,145384,0.5481733930344526
+LTV cap at origination,90.0,164183,0.24129702819271945
+current LTV band,"(-1.0, 40.0]",126405,0.2214979654604864
+current LTV band,"(40.0, 60.0]",105675,0.35854601075539105
+current LTV band,"(60.0, 80.0]",87701,0.37732151251555646
+current LTV band,"(80.0, 100.0]",11103,0.0344412511358049
+current LTV band,"(100.0, inf]",1948,0.008193260132761298
+city tier,tier 1,147975,0.44376632691294154
+city tier,tier 2,184857,0.5562336730870585
+employment,salaried,231385,0.6921242650901549
+employment,self-employed,101447,0.3078757349098451
+co-borrower,False,177636,0.48856234161831735
+co-borrower,True,155196,0.5114376583816828
+EMI increase now (central),"(-1.0, 0.0]",299401,0.9000732024579065
+EMI increase now (central),"(0.0, 0.05]",19020,0.05427111539221233
+EMI increase now (central),"(0.05, 0.1]",14348,0.04564907329406737
+EMI increase now (central),"(0.1, 0.25]",30,4.827822322838613e-06
+EMI increase now (central),"(0.25, inf]",33,1.781033491074793e-06
+"remaining tenure (years, central)","(0, 5]",32518,0.02490834472420801
+"remaining tenure (years, central)","(5, 10]",70720,0.14609572484595998
+"remaining tenure (years, central)","(10, 15]",108629,0.3568565615806108
+"remaining tenure (years, central)","(15, 20]",120965,0.47213936884922125

@@ -1,0 +1,12 @@
+# Table 1.A Credit quality of loan assets (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+category,year,row,Stage 1,Stage 2,Stage 3,POCI,Total
+Housing loans to individuals (item (xi)(a)),current year,Current / past due 1-30 days (status 00 or not yet reported),96733.59785965677,2419.107977391641,0.0,0.0,99152.70583704842
+Housing loans to individuals (item (xi)(a)),current year,Past due 31-60 days (status 01: 30-59),0.0,1066.3473364089823,22.740175914300934,0.0,1089.0875123232831
+Housing loans to individuals (item (xi)(a)),current year,Past due 61-90 days (status 02: 60-89),0.0,274.3844707992546,31.995591753752997,0.0,306.38006255300763
+Housing loans to individuals (item (xi)(a)),current year,Past due 90 days + (status 03+ / REO),0.0,0.0,748.2767252880668,0.0,748.2767252880668
+Housing loans to individuals (item (xi)(a)),current year,Gross Carrying Amount,96733.59785965677,3759.839784599878,803.0124929561207,0.0,101296.45013721277
+Housing loans to individuals (item (xi)(a)),current year,Impairment loss allowance,241.83399464914194,112.01797443670348,114.92975388867245,0.0,468.78172297451795
+Housing loans to individuals (item (xi)(a)),current year,Net Carrying amount,96491.76386500763,3647.8218101631746,688.0827390674483,0.0,100827.66841423826

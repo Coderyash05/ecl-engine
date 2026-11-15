@@ -1,0 +1,11 @@
+# Table 2 Summary of loan assets
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+year,row,Stage 1,Stage 2,Stage 3,POCI,Total
+current year,Gross carrying amount,78517283166.08,1951036513.9204154,1838592179.2887614,0.0,82306911859.28917
+current year,Less: ECL allowance,232384195.4951,42285213.37701598,955276217.6726487,0.0,1229945626.5447645
+current year,Net carrying amount,78284898970.5849,1908751300.5433993,883315961.6161127,0.0,81076966232.7444
+previous year,Gross carrying amount,73509514945.0,1903333296.0797744,1559054580.8397596,0.0,76971902821.91953
+previous year,Less: ECL allowance,223438080.34120002,45163106.78509925,857253058.6195893,0.0,1125854245.7458887
+previous year,Net carrying amount,73286076864.6588,1858170189.294675,701801522.2201703,0.0,75846048576.17363

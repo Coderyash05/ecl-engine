@@ -1,0 +1,4 @@
+feature,merge
+ever_deferred,"edge 0.5 removed: bin with 0.000% of snapshots, 1 defaults"
+ever_deferred,single bin: no category large enough to stand alone
+property_type,"CP merged with PU: 0.273% of snapshots, 178 defaults"

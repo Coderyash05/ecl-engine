@@ -1,0 +1,11 @@
+# Table 8 supplement: stage rule (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+stage,stage_rule,loans,exposure
+1,none,318908,96733.59785965677
+2,backstop_30dpd,4799,1340.7318072082367
+2,collateral_ltv,1871,797.2801837462166
+2,sicr_pd,4691,1621.827793645424
+3,default,2365,748.2767252880668
+3,default_arrears,198,54.73576766805394

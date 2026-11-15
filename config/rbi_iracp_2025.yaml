@@ -1,0 +1,94 @@
+# Old-rules (IRACP) provisioning for the ECL transition (Module 10; ACPIR paras 107-108).
+# Source: docs/reference/RBI-IRACP-Directions-2025.pdf (RBI/DOR/2025-26/164, 28 Nov 2025, updated
+# as on 1 Oct 2026) and docs/reference/RBI-Stressed-Assets-Directions-2025.pdf (RSA). Every value
+# below is quoted from those files; anything not RBI-specified is marked rbi_specified: false.
+# Housing loans to individuals only (the Freddie sample: US data, not Indian risk estimates).
+version: iracp-2025-10
+rbi_specified: true
+
+npa:
+  definition: ACPIR / IRACP 90 days overdue (Freddie status 03+ or REO)  # as in rbi_2026.yaml
+  upgrade:
+    para: "69"
+    quote: "may be upgraded as 'standard' asset only if entire arrears of interest and principal
+      are paid by the borrower"
+    proxy: back to status 00 (rbi_specified false; 0-29 days late not observable)
+  restructured:
+    para: "RSA 52-54, 58, 61, 62; IRACP 70"
+    rule: standard account restructured -> NPA (substandard to begin with); NPA restructured keeps
+      its classification; ageing continues; upgrade per RSA 58 (monitoring period); RSA 61 / 62
+      failed monitoring -> fresh restructuring needed
+  calamity:
+    para: "62A, 62B"
+    quote: >-
+      62A: "borrower accounts which are classified as 'Standard' may be retained as such upon
+      implementation" (Chapter VI-A resolution); 62B: a subsequent Chapter VI-A restructuring
+      "shall continue to be classified as 'Standard'"
+
+categories:                       # by time as NPA (IRACP 5(2), 5(12), 63)
+  substandard_max_months: 12      # 5(12): "remained NPA for a period less than or equal to twelve months"
+  doubtful_after_substandard_months: 12   # 5(2): "remained in the substandard category for a period of twelve months"
+  loss:
+    para: "5(5), 68(2)"
+    rule: loss identified, or "realisable value of the security ... less than ten per cent of the
+      outstanding" -> loss straightaway
+    realisable_below_share: 0.10
+  erosion_to_doubtful:
+    para: "68(1)"
+    rule: realisable value < 50% of the value at last assessment -> doubtful straightaway
+    applied: false                # last assessed value not in the data (limitation)
+  unsecured_exposure:
+    para: "5(13)"
+    quote: "realisable value of the security ... is not more than ten per cent, ab-initio, of the
+      outstanding exposure"
+    realisable_max_share: 0.10
+
+provision_rates:
+  standard_individual_housing:
+    para: "80(1)"
+    value: 0.0025                 # "individual housing loans ... at 0.25 per cent"
+    base: funded outstanding
+  restructured_standard:
+    para: "80(5); RSA 63"
+    rule: as per asset classification category (RSA 63) -> standard rate
+  substandard:
+    para: "85"
+    value: 0.15                   # "15 per cent on total outstanding"
+  substandard_unsecured:
+    para: "86"
+    value: 0.25                   # "additional provision of 10 per cent, i.e., a total of 25 per cent"
+  doubtful_unsecured_portion:
+    para: "90"
+    value: 1.00                   # "100 per cent of the extent to which the advance is not covered"
+  doubtful_secured_portion:       # para 91, by years in the doubtful category
+    para: "91"
+    bands:
+      - {years_from: 0, years_to: 1,    rate: 0.25}    # "Up to one year 25"
+      - {years_from: 1, years_to: 3,    rate: 0.40}    # "One to three years 40"
+      - {years_from: 3, years_to: null, rate: 1.00}    # "More than three years 100"
+    band_boundaries:
+      rbi_specified: false
+      convention: "[from, to)"
+  loss:
+    para: "95"
+    value: 1.00                   # "100 per cent of the outstanding"
+
+additional_specific:
+  calamity_resolution:
+    para: "84A"
+    value: 0.05                   # "additional specific provision of five percent of the outstanding debt"
+  calamity_repeat_each:
+    para: "84B"
+    value: 0.05                   # "five per cent ... for each instance of restructuring"
+  calamity_writeback:
+    para: "84C"
+    rule: written back after "paying at least 20% of the outstanding debt ... without slipping
+      into NPA ... and without being subjected to another restructuring"
+    repaid_share: 0.20
+  failed_monitoring:
+    para: "RSA 64"
+    value: 0.15                   # "additional specific provision of 15 per cent for an account
+                                  # referred to in paragraph 61 and 62 at the end of the Review Period"
+  ceiling:
+    para: "84A, 84B"
+    value: 1.00                   # "subject to a ceiling of hundred per cent"

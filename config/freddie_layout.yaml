@@ -1,0 +1,79 @@
+# Freddie Mac Single-Family Loan-Level Dataset: file layouts, Release 47 (July 2026).
+# Files are pipe-delimited with NO header row, so column order matters.
+# Confirmed against Freddie Mac's July 2026 disclosure-changes document and a real 2017 file:
+# 31 origination columns, 35 performance columns. Servicer name and MI cancellation indicator
+# moved from origination to performance; VantageScore 4.0 and bankruptcy cramdown costs added.
+# The loader stops with an error if the column count in your file differs.
+
+origination:
+  - credit_score            # 9999 = not available
+  - first_payment_date      # YYYYMM
+  - first_time_homebuyer
+  - maturity_date           # YYYYMM
+  - msa
+  - mi_pct
+  - num_units
+  - occupancy_status
+  - orig_cltv
+  - orig_dti                # 999 = not available
+  - orig_upb
+  - orig_ltv                # 999 = not available
+  - orig_interest_rate
+  - channel
+  - ppm_flag
+  - amortization_type
+  - property_state
+  - property_type
+  - postal_code
+  - loan_id                 # Loan Sequence Number
+  - loan_purpose
+  - orig_loan_term
+  - num_borrowers
+  - seller_name
+  - super_conforming_flag
+  - pre_harp_loan_id
+  - program_indicator
+  - harp_indicator
+  - property_valuation_method
+  - interest_only_indicator
+  - vantage_score_4         # VantageScore 4.0; 9999 = not available (new in Release 47)
+
+performance:
+  - loan_id
+  - reporting_period        # YYYYMM
+  - current_upb
+  - delinquency_status      # 00 <30 days, 01 30-59, 02 60-89, 03 90-119, ...; RA = REO acquired; XX = n/a
+  - loan_age
+  - remaining_months
+  - defect_settlement_date
+  - modification_flag
+  - zero_balance_code       # 01 prepaid, 02 third-party sale, 03 short sale, 09 REO, ...
+  - zero_balance_date
+  - current_interest_rate
+  - current_non_interest_bearing_upb
+  - ddlpi                   # due date of last paid instalment
+  - mi_recoveries           # recoveries/gains negative, losses/expenses positive
+  - net_sale_proceeds
+  - non_mi_recoveries
+  - total_expenses
+  - legal_costs
+  - maintenance_costs
+  - taxes_insurance
+  - misc_expenses
+  - actual_loss
+  - cumulative_modification_cost
+  - step_modification_flag
+  - payment_deferral        # C = deferral in current period, P = deferral in a prior period
+  - eltv                    # estimated current LTV; 999 = not available
+  - zero_balance_removal_upb
+  - delinquent_accrued_interest
+  - delinquency_due_to_disaster
+  - borrower_assistance_status   # F = forbearance, R = repayment plan, T = trial mod
+  - current_month_modification_cost
+  - interest_bearing_upb
+  - mi_cancellation_indicator    # moved from origination in Release 47
+  - servicer_name                # moved from origination in Release 47
+  - bankruptcy_cramdown_costs    # new in Release 47
+
+# Zero-balance codes treated as a credit default event (loss-type terminations).
+default_zero_balance_codes: ["02", "03", "09", "15"]

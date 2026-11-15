@@ -1,0 +1,41 @@
+{
+  "date": "2026-03-31",
+  "loans": 339472,
+  "weights": {
+    "downside": 0.2,
+    "central": 0.6,
+    "upside": 0.2
+  },
+  "co3": {
+    "z_lr": -0.20683901455101417,
+    "z_min_replay": -1.0315,
+    "z_min_downside": -0.5880307808137,
+    "s": 0.4622405727793055,
+    "z_first_base": -0.23606362105161902,
+    "z_first_downside": -0.3612287169947666,
+    "z_first_central": -0.23350383798296734,
+    "z_first_upside": -0.12066483937073763
+  },
+  "all": {
+    "as_on": "2026-03-31",
+    "segment": "all",
+    "value": "all",
+    "loans": 339472,
+    "pd12_base": 0.006316157888062148,
+    "lifetime_base": 0.05413353908207363,
+    "pd12_downside": 0.007042089641020083,
+    "lifetime_downside": 0.06570994732306713,
+    "pd12_downside_co3": 0.008246656497246777,
+    "lifetime_downside_co3": 0.07242587126357375,
+    "pd12_central": 0.006302142425707264,
+    "lifetime_central": 0.0544004022707716,
+    "pd12_upside": 0.0057153274817971925,
+    "lifetime_upside": 0.04648500575237923,
+    "pd12_weighted": 0.006573682251233153,
+    "pd12_weighted_no_co3": 0.006332768879987813,
+    "lifetime_weighted": 0.05642241676565355,
+    "lifetime_weighted_no_co3": 0.055079231977552226,
+    "pd12_uplift_weighted_vs_base": 1.0407723124936028,
+    "lifetime_uplift_weighted_vs_base": 1.042282062514141
+  }
+}

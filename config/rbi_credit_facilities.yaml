@@ -1,0 +1,26 @@
+# RBI (Commercial Banks - Credit Facilities) Directions, 2025 - values used by the engine.
+# Source: docs/reference/RBI-Credit-Facilities-Directions-2025.pdf (RBI/DOR/2025-26/154,
+# DOR.CRE.REC.73/07-01-001/2025-26, 28 Nov 2025, updated as on October 1, 2026).
+# Approved by the owner (2026-11-15); checked against the PDF text layer on 2026-11-15.
+# Used only by the SYNTHETIC Indian book (Module 12): the generator caps origination LTV by ticket
+# size. Risk weights are quoted for completeness; the ECL engine does not use them.
+version: cf-2025-10
+updated_as_on: "2026-10-01"
+rbi_specified: true
+
+ltv_individual_housing:
+  para: "111"
+  location: Chapter VIII (Credit Facilities to Real Estate Sector), B.6 Quantum of Loan, page 55
+  quote: "The bank shall abide by the following Loan to Value (LTV) and Risk Weights (RWs) while
+    deciding the quantum of loan to be granted as housing finance"
+  bands:                                 # ticket size in Rs lakh; cap = maximum LTV (%)
+    - {up_to_lakh: 30, cap: 90}          # <= 80: RW 35; > 80 and <= 90: RW 50
+    - {up_to_lakh: 75, cap: 80}          # above 30 and up to 75 lakh: <= 80, RW 35
+    - {up_to_lakh: null, cap: 75}        # above 75 lakh: <= 75, RW 50
+  pre_2017_proviso: >-
+    Para 111 proviso (page 56): loans sanctioned till June 06, 2017 have different risk weights
+    (30-75 lakh: <= 75 RW 35, > 75 and <= 80 RW 50; above 75 lakh RW 75) but the same maximum
+    LTV per band (90 / 80 / 75), so the caps above apply to every origination date.
+  property_value_note: >-
+    Para 113: stamp duty, registration and documentation charges are excluded from the property
+    value (except houses costing up to Rs 10 lakh). The synthetic book has no such charges.

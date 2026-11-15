@@ -1,0 +1,33 @@
+# Table 6 ECL adjustments
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+year,portfolio,row,amount
+current year,Housing loans to individuals (item (xi)(a)),Loss allowance before judgmental adjustments,1176804954.8795
+current year,Housing loans to individuals (item (xi)(a)),"Post Model Adjustment (CO-3 PD, CO-5 LGD; downside)",3231322.9447267056
+current year,Housing loans to individuals (item (xi)(a)),Management Overlays,0.0
+current year,Housing loans to individuals (item (xi)(a)),Any other,0.0
+current year,Housing loans to individuals (item (xi)(a)),Loss allowance after judgmental adjustments,1180036277.8242266
+current year,Housing loans to individuals (item (xi)(a)),Memo: model ECL before adjustments (before floors),143617744.97098133
+current year,Housing loans to individuals (item (xi)(a)),Memo: model ECL after adjustments (before floors),152671682.82321304
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Loss allowance before judgmental adjustments,49909348.72053806
+current year,Advances restructured and classified as standard - calamity (item (xiv)),"Post Model Adjustment (CO-3 PD, CO-5 LGD; downside)",7.450580596923828e-09
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Management Overlays,0.0
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Any other,0.0
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Loss allowance after judgmental adjustments,49909348.720538065
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Memo: model ECL before adjustments (before floors),1964599.053276394
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Memo: model ECL after adjustments (before floors),2053155.4947738936
+previous year,Housing loans to individuals (item (xi)(a)),Loss allowance before judgmental adjustments,1065664960.6490892
+previous year,Housing loans to individuals (item (xi)(a)),"Post Model Adjustment (CO-3 PD, CO-5 LGD; downside)",3746874.183882594
+previous year,Housing loans to individuals (item (xi)(a)),Management Overlays,0.0
+previous year,Housing loans to individuals (item (xi)(a)),Any other,0.0
+previous year,Housing loans to individuals (item (xi)(a)),Loss allowance after judgmental adjustments,1069411834.8329718
+previous year,Housing loans to individuals (item (xi)(a)),Memo: model ECL before adjustments (before floors),124331329.344336
+previous year,Housing loans to individuals (item (xi)(a)),Memo: model ECL after adjustments (before floors),133617906.03212623
+previous year,Advances restructured and classified as standard - calamity (item (xiv)),Loss allowance before judgmental adjustments,56442410.91291668
+previous year,Advances restructured and classified as standard - calamity (item (xiv)),"Post Model Adjustment (CO-3 PD, CO-5 LGD; downside)",7.450580596923828e-09
+previous year,Advances restructured and classified as standard - calamity (item (xiv)),Management Overlays,0.0
+previous year,Advances restructured and classified as standard - calamity (item (xiv)),Any other,0.0
+previous year,Advances restructured and classified as standard - calamity (item (xiv)),Loss allowance after judgmental adjustments,56442410.91291669
+previous year,Advances restructured and classified as standard - calamity (item (xiv)),Memo: model ECL before adjustments (before floors),2621175.4896897697
+previous year,Advances restructured and classified as standard - calamity (item (xiv)),Memo: model ECL after adjustments (before floors),2790706.289311722

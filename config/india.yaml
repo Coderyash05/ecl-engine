@@ -1,0 +1,101 @@
+# India adapter (Module 12) - SYNTHETIC Indian housing portfolio. Every number below is a
+# developer assumption for a synthetic book (rbi_specified: false) unless a source is given.
+# Nothing here is an Indian risk estimate: the book is derived from the US (Freddie Mac) book.
+# Design and every assumption with its sensitivity: docs/india_adapter.md.
+version: india-0.2.1
+rbi_specified: false
+label: SYNTHETIC - derived from US loans; not Indian risk estimates
+as_of: "2026-03-31"
+seed: 20261114
+
+macro:                                   # RBI DBIE / MoSPI files (downloaded by Yash), data/macro/india/
+  dir: data/macro/india
+  files:
+    hpi: House Price Index Publication.xlsx                       # RBI HPI, bases 2008-09 / 2010-11 / 2022-23
+    repo: Major Monetary Policy Rates and Reserve Requirements - Bank Rate, LAF (Repo, Reverse Repo, SDF and MSF) Rates, CRR & SLR.xlsx
+    gdp_2011_12: gdp_nas_2011-12.csv     # DBIE table 161, NAS base 2011-12
+    gdp_2022_23: gdp_nas_2022-23.csv     # DBIE table 161, NAS base 2022-23
+    cpi_2012: cpi_base2012.csv           # MoSPI CPI Combined General, All India, base 2012
+    cpi_2024: cpi_base2024.xlsx          # MoSPI CPI, base 2024 (all states / sectors / divisions)
+  # no longer used (superseded 2026-11-15, moved to data/macro/india/superseded/): the base
+  # 2004-05 GDP workbook and the "Base 2010=100" CPI workbook (base 2012, Jan 2011 - May 2013)
+  expected:                              # loader fails loudly (DataCheckError) on any mismatch
+    gdp_2011_12: {base: 2011-12, first: Q1.2011-12, last: Q2.2025-26, rows: 58}
+    gdp_2022_23: {base: 2022-23, first: Q1.2022-23, last: Q1.2026-27, rows: 17}
+    cpi_2012: {base: "2012", first: 2013-01, last: 2025-12, rows: 156}
+    cpi_2024: {base: "2024", first: 2025-01, last: 2026-10, rows: 22}
+  hpi_splice: newest base covering a quarter; earlier quarters chained on QoQ growth of the older base
+  gdp_last_quarter_old_base: Q4.2022-23  # YoY chained: base 2011-12 to here, base 2022-23 after
+  cpi_link_year: 2025                    # link factor = mean 2025 ratio (2012 base / 2024 base)
+  cpi_link_max_ratio_range: 0.05         # fail if the monthly ratios spread more than this
+
+scenarios:
+  horizon_quarters: 12
+  reversion_quarters: 8
+  n_sims: 10000
+  block_quarters: 4
+  shares: {downside: 0.2, central: 0.6, upside: 0.2}   # = weights, as for the US (para 47)
+  var_window: [2014Q1, 2026Q1]           # VAR(1) on HPI QoQ, GDP YoY, CPI YoY (CPI YoY from 2014Q1)
+  exclude_quarters: [2020Q1, 2021Q4]     # COVID quarters left out of estimation and bootstrap
+  z_mapping: >-
+    Z = long-run Z (US, -0.207) + US satellite coefficients x (India HPI YoY - India mean,
+    India GDP YoY - India mean); means over the VAR window ex COVID
+  z_hpi_elasticity_sensitivity: [0.5, 2.0]   # multiples of the US coefficient
+  repo:
+    base: flat at the repo rate in force on the reporting date (no forecast in the files)
+    shock_window: [2001, 2026]           # history of 4-quarter repo changes
+    downside_percentile: 80              # repo rise in the downside (adverse for borrowers)
+    upside_percentile: 20
+    ramp_quarters: 4
+
+portfolio:
+  source: US 2026-03-31 ECL output (data/processed/ecl/ecl_2026-03.parquet) + loans_all
+  exclude: restructured or calamity-route US loans (no restructuring history is synthesised)
+  gnpa_target: 0.008                     # housing loans GNPA ratio, all SCBs, end-March 2026
+  gnpa_source: >-
+    RBI Financial Stability Report June 2026, Chapter II, Chart 2.3 b (Personal Loans - GNPA
+    Ratio by Category), printed page 65: housing loans PSBs 0.7, PVBs 0.8, FBs 0.8, All SCBs 0.8
+    (docs/reference/RBI-FSR-June-2026-Chapter-II.pdf; checked on the PDF text layer). Replaces
+    0.5%, an unverified secondary figure (probably all lenders incl. HFCs, not SCBs).
+  ticket_inr_lakh:                       # US original amount -> INR by quantile mapping onto a
+    median: 30                           # lognormal; synthetic assumption; dispersion = US
+                                         # log(orig_upb) sd
+  ltv_caps: >-                           # verified RBI values, not set here
+    config/rbi_credit_facilities.yaml (Credit Facilities Directions 2025, updated as on October 1,
+    2026, para 111); the generator enforces them by ticket size with a hard check.
+  cibil:                                 # quantile mapping of the US score percentile
+    range: [300, 900]
+    target_quantiles: {0.01: 600, 0.10: 690, 0.50: 760, 0.90: 820, 0.99: 860}  # assumption
+  foir: DTI used as FOIR (both = monthly obligations / gross income)
+  employment:
+    self_employed_share: 0.30            # assumption
+    pd_multiplier_self_employed: 1.5     # vs salaried; book-average normalised to 1
+    pd_multiplier_sensitivity: [1.2, 2.0]
+  co_borrower: US num_borrowers >= 2
+  cities:                                # RBI HPI 2022-23 base cities; equal weights (the file's
+    assignment: seeded random draw, equal weights   # population weights are not published in it)
+    tier1: [Ahmedabad, Bangalore, Chennai, Delhi, Hyderabad, Kolkata, Mumbai, Pune]   # HRA class X
+  rate:
+    spread_pp: 2.5                       # EBLR = repo + spread (all loans treated as repo-linked)
+  tenure:
+    original_years: 20                   # typical original tenure; leaves room to extend
+    max_years: 30
+    retirement_age: {salaried: 60, self_employed: 65}   # bank-practice assumption
+    age_at_origination: [25, 50]         # uniform, assumption
+  payment_shock:
+    pd_beta: 2.0                         # PD multiplier = 1 + beta x EMI increase (10% -> +20%)
+    pd_beta_sensitivity: [0.0, 4.0]
+  prepayment_cpr: 0.08                   # annual; no prepayment penalty on floating rates
+  prepayment_cpr_sensitivity: [0.04, 0.15]
+
+lgd:
+  p_no_cure: 0.5                         # share of NPAs that do not cure (assumption)
+  p_no_cure_sensitivity: [0.3, 0.7]
+  realisation_haircut: 0.40              # distress sale, SARFAESI costs; also the secured portion
+  realisation_haircut_sensitivity: [0.30, 0.50]
+  years_to_recovery: 3                   # discounted at the loan rate
+  min_loss_rate: 0.05                    # legal and holding costs, share of EAD
+  stage3_p_no_cure: 0.6                  # loans already in NPA
+
+outputs:
+  dir: reports/summary/india

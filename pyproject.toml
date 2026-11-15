@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=77"]  # SPDX `license` string (PEP 639)
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecl-engine"
+version = "0.1.0"
+description = "Expected Credit Loss engine for a housing-loan portfolio under the RBI ECL Directions, 2026"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    # Versions pinned to the environment the published results were produced with.
+    "duckdb==2.0.0",
+    "numpy==2.5.4",
+    "pandas==3.1.1",
+    "pyarrow==26.0.1",       # Parquet I/O (pandas, DuckDB)
+    "PyYAML==6.0.3",
+    "scikit-learn==1.9.1",   # Gini / KS, logistic regression
+    "lightgbm==4.7.0",       # PD challenger
+    "optbinning==1.0.0",     # WoE binning
+    "statsmodels==0.15.0",   # HAC / GLM / clustered standard errors
+    "scipy==1.18.1",
+    "openpyxl==3.1.5",       # Excel inputs (SPF workbooks, RBI DBIE, MoSPI CPI)
+    "pypdf==7.1.0",          # SEP medians checked against the PDF text
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "ruff==0.17.4"]
+
+[project.scripts]
+ecl = "ecl.launch:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+# On top of ruff's default rules: every public class / function / method has a docstring, and
+# function arguments and public return values carry type hints.
+extend-select = ["D101", "D102", "D103", "ANN001", "ANN201", "ANN202"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "ANN"]

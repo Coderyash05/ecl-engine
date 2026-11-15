@@ -1,0 +1,19 @@
+# Table 6 ECL adjustments
+# Reporting date: 2023-03-31
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+year,portfolio,row,amount
+current year,Housing loans to individuals (item (xi)(a)),Loss allowance before judgmental adjustments,698861957.5282784
+current year,Housing loans to individuals (item (xi)(a)),"Post Model Adjustment (CO-3 PD, CO-5 LGD; downside)",1789228.9541232586
+current year,Housing loans to individuals (item (xi)(a)),Management Overlays,0.0
+current year,Housing loans to individuals (item (xi)(a)),Any other,0.0
+current year,Housing loans to individuals (item (xi)(a)),Loss allowance after judgmental adjustments,700651186.4824016
+current year,Housing loans to individuals (item (xi)(a)),Memo: model ECL before adjustments (before floors),67122358.6072
+current year,Housing loans to individuals (item (xi)(a)),Memo: model ECL after adjustments (before floors),72853145.62433222
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Loss allowance before judgmental adjustments,66504586.893543854
+current year,Advances restructured and classified as standard - calamity (item (xiv)),"Post Model Adjustment (CO-3 PD, CO-5 LGD; downside)",0.0
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Management Overlays,0.0
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Any other,0.0
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Loss allowance after judgmental adjustments,66504586.893543854
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Memo: model ECL before adjustments (before floors),2767877.0506603075
+current year,Advances restructured and classified as standard - calamity (item (xiv)),Memo: model ECL after adjustments (before floors),2960371.69937675

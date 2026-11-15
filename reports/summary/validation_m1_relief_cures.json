@@ -1,0 +1,12 @@
+{
+  "window_defaults": 15054,
+  "b18_relabelled": 869,
+  "no_cure_actual_all": 0.36488640892785973,
+  "no_cure_actual_excl": 0.38604159323228765,
+  "no_cure_actual_relabelled": 0.019562715765247412,
+  "shift_all": -0.4685115083840398,
+  "shift_excl": -0.43889047586223295,
+  "projected_no_cure_all": 0.3806511360687572,
+  "projected_no_cure_excl": 0.3869996695205984,
+  "ecl_ratio": 1.0166780888070026
+}

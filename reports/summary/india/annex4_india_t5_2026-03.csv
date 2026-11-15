@@ -1,0 +1,8 @@
+# Table 5 Macroeconomic assumptions - India (RBI DBIE / MoSPI series)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+scenario,weight,Real GDP growth 1-year forward (%),Real GDP growth 5-year average (%),HPI growth 1-year forward (%),HPI growth 5-year average (%),CPI inflation 1-year forward (%),CPI inflation 5-year average (%),Repo rate 1-year forward (%),Repo rate 5-year average (%),Z 12-quarter mean
+downside,0.2,6.317767167420391,6.561252014233207,3.0492770649521574,4.389319182553142,3.1490465561188916,3.843493614011981,6.0,5.775,-0.4248215110448694
+central,0.6,6.971206775731886,7.007604840966074,5.3652939731283515,5.83171610883606,3.9115722919481226,4.154810055266855,5.25,5.25,-0.2783069077250199
+upside,0.2,7.592222170482977,7.302241798646259,7.860533819546012,7.5134965105120965,4.503469090809873,4.444757163402288,4.25,4.55,-0.1375387154260881

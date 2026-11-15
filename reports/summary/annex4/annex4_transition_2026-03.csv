@@ -1,0 +1,9 @@
+# Transition: CET1 add-back schedule (ACPIR 108; pre-tax)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+financial_year,max_fraction,max_addback_to_cet1_pre_tax
+2027-28,0.8,0.0
+2028-29,0.6,0.0
+2029-30,0.4,0.0
+2030-31,0.2,0.0

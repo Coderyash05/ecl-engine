@@ -1,0 +1,7 @@
+# Table 8 SICR criteria
+# Reporting date: 2023-03-31
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+Loan product category,Internal loan product,SICR criteria,Segmentation criteria,Number of segments
+Housing loans to individuals (item (xi)(a)),US 30-year fixed-rate conforming mortgage,"Stage 2: > 30 dpd backstop (status 01-02; no rebuttals); lifetime PD now / origination-expected lifetime PD >= 2.5 and + 0.5% (para 26); indexed LTV >= 100% (Annex 1); restructured with 10-20% repaid. Stage 3: RBI default (90+, REO) until arrears cleared (para 8(10)); restructured until the RSA monitoring period is met (RSA 58, 61)","none - loan level, uniform thresholds (para 68)",1
+Advances restructured and classified as standard - calamity (item (xiv)),US 30-year fixed-rate conforming mortgage,"Stage 2: > 30 dpd backstop (status 01-02; no rebuttals); lifetime PD now / origination-expected lifetime PD >= 2.5 and + 0.5% (para 26); indexed LTV >= 100% (Annex 1); restructured with 10-20% repaid. Stage 3: RBI default (90+, REO) until arrears cleared (para 8(10)); restructured until the RSA monitoring period is met (RSA 58, 61)","none - loan level, uniform thresholds (para 68)",1

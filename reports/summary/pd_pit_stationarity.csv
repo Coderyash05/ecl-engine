@@ -1,0 +1,9 @@
+series,n,adf_p,kpss_p,reading
+z_measured (dev),68,0.22367263055504083,0.1,inconclusive
+satellite residual (dev),68,0.020345742803629042,0.07319822696619661,stationary
+hpi_yoy[W] (dev),68,0.2650775144069365,0.1,inconclusive
+gdp_yoy[W] (dev),68,0.16978801844056257,0.1,inconclusive
+"hpi_yoy, 1990-2026",146,0.0956678691102712,0.1,inconclusive
+"gdp_yoy, 1990-2026",146,0.0452263081695732,0.1,stationary
+"ff_chg4, 1990-2026",146,2.4944950028571098e-05,0.1,stationary
+"unrate_chg4, 1990-2026",146,0.003170174870673592,0.1,stationary

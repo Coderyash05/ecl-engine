@@ -1,0 +1,6 @@
+# Table 7 ECL data (SYNTHETIC)
+# Reporting date: 2026-03-31 - DRY RUN first-application date
+# SYNTHETIC Indian housing book derived from US (Freddie Mac) loans under documented assumptions (docs/india_adapter.md); real RBI DBIE macro series; NOT Indian risk estimates; amounts in Rs crore
+# Config: india-0.2.1 / ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+Loan product category,PD Stage 1 (12-month),PD Stage 2 (lifetime),PD Stage 3,LGD Stage 1,LGD Stage 2 (implied lifetime),LGD Stage 3 (in default)
+Housing loans to individuals (item (xi)(a)),0.007328030788073003,0.4239377818384966,1.0,0.08986796070090669,0.07027749179310229,0.05810234576676385

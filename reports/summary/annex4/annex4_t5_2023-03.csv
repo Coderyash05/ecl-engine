@@ -1,0 +1,11 @@
+# Table 5 Macroeconomic assumptions (Module 4)
+# Reporting date: 2023-03-31
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+as_on,scenario,weight,horizon,"National HPI growth (FHFA, %)",Real GDP growth (%),30-year mortgage rate (%),Unemployment rate (%)
+2023-03-31,Central economic assumptions,0.6,1 year forward,1.826629864843854,0.8841476957639482,6.264100114550555,3.925737962463362
+2023-03-31,Central economic assumptions,0.6,5-year average,2.4127414043770834,1.6826679562596425,5.628921880567264,3.9851551006853385
+2023-03-31,Upside economic assumptions,0.2,1 year forward,4.024992375311953,2.001595318426519,5.997978219263166,3.821508138219524
+2023-03-31,Upside economic assumptions,0.2,5-year average,4.77275806318922,2.5619230121258108,5.456452137289747,3.3673728010168014
+2023-03-31,Downside economic assumptions,0.2,1 year forward,-0.5721410821293293,-0.6125978336109505,6.49055845639808,4.240332674570183
+2023-03-31,Downside economic assumptions,0.2,5-year average,0.004096835332667581,0.595008490587623,5.652986454800662,5.205939242947574

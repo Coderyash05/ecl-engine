@@ -1,0 +1,6 @@
+specification,driver,role,sign_ok,t_hac,err_with,err_without,error_reduction,out_of_sample_ok,passes
+hpi_yoy + gdp_yoy + ff_chg4,hpi_yoy,core (ex ante),True,4.126885350302463,0.16634254856714326,0.26442563883095,0.3709288202817287,True,True
+hpi_yoy + gdp_yoy + ff_chg4,gdp_yoy,core (ex ante),True,3.115891323650089,0.16634254856714326,0.17619266436920256,0.05590536834960902,True,True
+hpi_yoy + gdp_yoy + ff_chg4,ff_chg4,optional,True,-1.021824946493731,0.16634254856714326,0.175810940963329,0.05385553563563872,True,False
+hpi_yoy + gdp_yoy,hpi_yoy,core (ex ante),True,3.9721689674637153,0.175810940963329,0.23901153426871108,0.264424867606298,True,True
+hpi_yoy + gdp_yoy,gdp_yoy,core (ex ante),True,3.7123055101951254,0.175810940963329,0.17619266436920256,0.002166511342797328,True,True

@@ -1,0 +1,62 @@
+{
+  "loans": 29743,
+  "by_vintage": {
+    "2005": 10007,
+    "2006": 9806,
+    "2007": 9930
+  },
+  "z_long_run": -0.20683901455101417,
+  "z_min_replay_R3": -1.0314943224906157,
+  "z_min_replay_measured_R1": -1.249897186079496,
+  "stressed_quarters_rule": "z_q < long-run Z",
+  "calibration": {
+    "pooled": {
+      "m": 1.5108988501587444,
+      "lo": 1.458597141787242,
+      "hi": 1.5671238028832672,
+      "loans": 19736,
+      "boot": 500
+    },
+    "sand": {
+      "m": 3.0622900927572334,
+      "lo": 2.862338575482554,
+      "hi": 3.2787224084740934,
+      "loans": 3390,
+      "boot": 500
+    },
+    "other": {
+      "m": 1.208547330652303,
+      "lo": 1.1598401139316958,
+      "hi": 1.264404297911184,
+      "loans": 16346,
+      "boot": 500
+    }
+  },
+  "split_sand_other": true,
+  "split_reason": {
+    "pooled_m_region_outside_tolerance": true,
+    "intervals_disjoint": true
+  },
+  "sensitivity_calibration_2005_07": {
+    "sand": {
+      "m": 2.8196948696925177,
+      "lo": 2.6348477408077344,
+      "hi": 2.9750398050840574,
+      "loans": 5528,
+      "boot": 500
+    },
+    "other": {
+      "m": 1.1537263497581343,
+      "lo": 1.109819227413688,
+      "hi": 1.1987761475508965,
+      "loans": 24215,
+      "boot": 500
+    }
+  },
+  "m_applied": {
+    "CA/FL/NV/AZ": 3.0622900927572334,
+    "other": 1.208547330652303
+  },
+  "acceptance_all_pass": false,
+  "holdout_2005_pass": false
+}

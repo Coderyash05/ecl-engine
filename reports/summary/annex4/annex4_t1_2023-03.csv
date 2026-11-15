@@ -1,0 +1,19 @@
+# Table 1.A Credit quality of loan assets
+# Reporting date: 2023-03-31
+# Data: US (Freddie Mac Single-Family sample, FHFA, FRED, SPF, SEP) - NOT Indian risk estimates; amounts in US dollars (the Annex 4 formats use Rs crore)
+# Config: ecl-0.1.0 (config/ecl.yaml), rbi_2026.yaml, iracp-2025-10; ECL run git 424af50 (clean True); report git 424af50
+category,year,row,Stage 1,Stage 2,Stage 3,POCI,Total
+Housing loans to individuals (item (xi)(a)),current year,Current / past due 1-30 days (status 00 or not yet reported),54101928792.99,547263311.19,788658280.07,0.0,55437850384.25001
+Housing loans to individuals (item (xi)(a)),current year,Past due 31-60 days (status 01: 30-59),0.0,288714323.6382779,64131231.64124982,0.0,352845555.2795278
+Housing loans to individuals (item (xi)(a)),current year,Past due 61-90 days (status 02: 60-89),0.0,56488126.66615396,33250724.03353867,0.0,89738850.69969262
+Housing loans to individuals (item (xi)(a)),current year,Past due 90 days + (status 03+ / REO),0.0,0.0,319886529.2954975,0.0,319886529.2954975
+Housing loans to individuals (item (xi)(a)),current year,Gross Carrying Amount,54101928792.99,892465761.494432,1205926765.040286,0.0,56200321319.52472
+Housing loans to individuals (item (xi)(a)),current year,Impairment loss allowance,135254821.98247498,17898419.617245663,547497944.8826809,0.0,700651186.4824016
+Housing loans to individuals (item (xi)(a)),current year,Net Carrying amount,53966673971.00752,874567341.8771863,658428820.1576052,0.0,55499670133.04232
+Advances restructured and classified as standard - calamity (item (xiv)),current year,Current / past due 1-30 days (status 00 or not yet reported),989313559.4399999,39383189.98,0.0,0.0,1028696749.4200001
+Advances restructured and classified as standard - calamity (item (xiv)),current year,Past due 31-60 days (status 01: 30-59),0.0,24802152.064457133,626833.2726916666,0.0,25428985.3371488
+Advances restructured and classified as standard - calamity (item (xiv)),current year,Past due 61-90 days (status 02: 60-89),0.0,7916438.081997333,367997.84154166665,0.0,8284435.9235390015
+Advances restructured and classified as standard - calamity (item (xiv)),current year,Past due 90 days + (status 03+ / REO),0.0,0.0,29572479.420509122,0.0,29572479.420509122
+Advances restructured and classified as standard - calamity (item (xiv)),current year,Gross Carrying Amount,989313559.4399999,72101780.12645447,30567310.534742456,0.0,1091982650.101197
+Advances restructured and classified as standard - calamity (item (xiv)),current year,Impairment loss allowance,49465677.972,7210178.012645447,9828730.908898402,0.0,66504586.893543854
+Advances restructured and classified as standard - calamity (item (xiv)),current year,Net Carrying amount,939847881.4679999,64891602.11380903,20738579.625844054,0.0,1025478063.2076532

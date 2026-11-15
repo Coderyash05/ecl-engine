@@ -1,0 +1,61 @@
+# LGD and EAD (Module 5) - docs/methodology/lgd_ead.md.
+# Developer choices, NOT RBI values, except where a para is cited (values then live in
+# config/rbi_2026.yaml: fallback LGD para 97, no netting of mitigants para 100, secured portion
+# para 6(24)).
+version: lgd-0.2.0
+rbi_specified: false
+
+default_definition: RBI target A (90+ dpd, REO or loss-type termination; paras 6(5), 8(1))
+
+resolution:
+  loss_codes: ["02", "03", "09", "15"]    # third-party sale, short sale/charge-off, REO, whole-loan sale
+  cure_codes: ["01", "16"]                # paid off or sold as re-performing after default: no loss
+  excluded_codes: ["96"]                  # defect repurchase: outcome not a credit outcome
+  cure_rule: first month current (0 months delinquent) after default, and no loss-type termination
+  unresolved: censored (dropped from fitting; resolution bias recorded as limitation)
+
+cure_model:
+  months_in_default: [0, 3, 6, 12, 18, 24, 36]   # observation points while still in default
+  ltv_knots: [60, 80, 100, 120]                  # linear spline in indexed LTV
+  score_knots: [680, 740]
+  age_knots: [24, 60]                            # loan age at observation, months
+
+  recalibration:                  # owner decision 2026-11-14 (option 2, window 2012-2019)
+    form: intercept shift of the cure model (slopes kept)
+    target: fully resolved defaults (cure or liquidation) with default year in the window, m = 0
+    window: [2012, 2019]
+    reason: >-
+      structural change in US loss mitigation from about 2010-12; 2017-19 alone is excluded as
+      its workouts resolved during the COVID foreclosure moratoria and the 2020-22 house-price
+      surge (temporary, cure-inflating)
+    sensitivity: option 1 (development fit, no shift)
+
+severity_model:
+  form: fractional logit (GLM binomial, logit link) on severity clipped to [0, 1]
+  ltv_knots: [60, 80, 100, 120]
+  size_knots: [100000, 200000, 400000]           # original UPB
+  property_groups: {SF: SF, PU: PU, CO: CO}      # others (MH, CP) -> OTHER
+  discounting: note rate at origination (EIR proxy, paras 50-51); default month -> zero-balance month
+
+split:
+  development_defaults_to: 2016-12-01   # default month <= this: development; later: out of time
+  periods:                              # validation periods by default year
+    "2000-06": [2000, 2006]
+    "crisis 2007-11": [2007, 2011]
+    "2012-16": [2012, 2016]
+    "2017-19": [2017, 2019]
+    "COVID 2020-21": [2020, 2021]
+    "2022-26": [2022, 2026]
+
+collateral:
+  realisation_haircut: data       # 1 - median(net sale proceeds / indexed property value), REO sales
+  haircut_codes: ["09"]
+
+ead:
+  accrued_interest_at_default_months: 3   # 90 dpd: three unpaid instalments of interest
+  default_point_in_year: 0.5              # projected default at mid-year
+
+crisis_gap_trigger: 1.10   # crisis-period actual / predicted LGD above this = non-conservative gap
+
+ltv_bands: [0, 60, 80, 90, 100, 120, .inf]
+ltv_labels: ["<=60", "60-80", "80-90", "90-100", "100-120", ">120"]

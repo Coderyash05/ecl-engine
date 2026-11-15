@@ -1,0 +1,22 @@
+name,dtype,n_bins,iv,gini,iv_flag,decision,reason
+dlq_state,numerical,6,2.0678787263683525,0.5273581934285275,suspicious: IV > 0.5,kept,
+months_since_30dpd,numerical,4,1.9348281909165854,0.5262560108927956,suspicious: IV > 0.5,dropped,|corr| 0.99 with dlq_state (higher IV)
+max_dlq_12m,numerical,3,1.7827113254916171,0.49011275904442086,suspicious: IV > 0.5,dropped,|corr| 0.90 with dlq_state (higher IV)
+current_dpd,numerical,3,1.6374137124288168,0.366093249506213,suspicious: IV > 0.5,dropped,|corr| 0.75 with dlq_state (higher IV)
+credit_score,numerical,15,0.7861200165395802,0.47736695886133107,suspicious: IV > 0.5,kept,
+current_ltv,numerical,16,0.5970659043114113,0.4136625931515562,suspicious: IV > 0.5,kept,
+orig_cltv,numerical,9,0.26029237419569495,0.265759918546822,,dropped,|corr| 0.73 with current_ltv (higher IV)
+orig_ltv,numerical,10,0.2556012234249428,0.26138095406196704,,dropped,|corr| 0.75 with current_ltv (higher IV)
+rate_spread,numerical,11,0.25318095339696856,0.26895484849511986,,kept,
+orig_dti,numerical,13,0.2314912993315098,0.2682514282827112,,kept,
+num_borrowers,numerical,2,0.10967413809941423,0.16483464358043132,,kept,
+loan_age,numerical,13,0.10478867232740222,0.16063404182241714,,kept,
+loan_purpose,categorical,3,0.06448599842637906,0.1374553404869423,,kept,
+channel,categorical,2,0.0631279991115668,0.125294869208033,,kept,
+harp_loan,numerical,2,0.013602859140633897,0.03095357043181035,drop: IV < 0.02,dropped,IV 0.0136 < 0.02
+property_type,categorical,4,0.012196685163259308,0.04001994483102156,drop: IV < 0.02,dropped,IV 0.0122 < 0.02
+ever_modified,numerical,2,0.006722184238911313,0.004181843900105453,drop: IV < 0.02,dropped,IV 0.0067 < 0.02
+first_time_homebuyer,categorical,2,0.003794317134021815,0.017796261765423926,drop: IV < 0.02,dropped,IV 0.0038 < 0.02
+occupancy_status,categorical,3,0.002606810603846607,0.00980438644617787,drop: IV < 0.02,dropped,IV 0.0026 < 0.02
+num_units,numerical,2,0.000777895414588685,0.004354741637370929,drop: IV < 0.02,dropped,IV 0.0008 < 0.02
+ever_deferred,numerical,1,0.0,0,drop: IV < 0.02,dropped,IV 0.0000 < 0.02

@@ -1,0 +1,140 @@
+# Macro scenarios (Module 4) - docs/methodology/scenarios.md (model-owner decisions 2026-11-13/14).
+# Developer / owner choices, NOT RBI values: the Directions require multiple, probability-weighted,
+# unbiased scenarios with mean reversion beyond the forecast horizon (paras 47-49, 124, Annex 4
+# Table 5) but set none of the numbers below.
+version: scen-0.1.0
+rbi_specified: false
+country: US            # US data (FRED, FHFA, SPF, SEP): never Indian risk estimates
+
+horizon_quarters: 12   # explicit forecast (Module 3 open question #5)
+reversion_quarters: 8  # linear reversion to the long-run values, then flat
+
+var:
+  variables: [hpi_g, gdp_g, d_mort, d_unrate]
+  lags: 2
+  window: [1976Q1, 2019Q4]   # ends before COVID: no exclusion needed inside the window
+  simulation:
+    n_sims: 10000
+    block_quarters: 4        # block bootstrap of centred residuals
+    seed: 20261113
+
+partition:
+  shares: {downside: 0.2, central: 0.6, upside: 0.2}   # = scenario weights (unbiased, para 47)
+  severity_index: satellite Z (pd_pit) at the 12-quarter mean YoY HPI and GDP growth
+
+severity_check:              # decisions 2026-11-14 (W1)
+  deciding_test: z_index     # combined severity index; single variables reported for information
+  primary: deviation of 1-year-forward growth from the base vs historical 4-quarter forecast errors
+  primary_references:
+    gdp: SPF median errors, surveys 1976Q1 onward (VAR errors as a cross-check)
+    hpi: scenario-VAR 4-quarter forecast errors, origins 1976Q1 onward
+    z_index: satellite-weighted HPI + GDP deviation vs the same weighting of the VAR errors
+      (the index the regions are cut on)
+  secondary: 1-year-forward growth vs historical 4-quarter outcomes, origins 1991Q1 onward
+  reference_start_primary: 1976Q1
+  reference_start_secondary: 1991Q1
+  exclude_windows_touching: [2020Q1, 2021Q2]          # COVID quarters
+  band_downside: [5, 20]     # percentiles
+  band_upside: [80, 95]
+
+state_paths:
+  method: beta               # documented choice: g_state = beta_s x g_national, intercepts dropped
+  file: data/macro/hpi_at_state.csv          # FHFA All-Transactions, state, quarterly
+  beta_window: [2000Q1, 2016Q4]
+
+long_run:
+  hpi_gdp: 2000-2016 means from models/pd_pit/metadata.json (long-run Z = -0.207)
+  mortgage30: SEP longer-run fed funds median + mortgage-fed funds spread   # documented choice
+  ff_spread_window: [1987Q1, 2019Q4]
+  ff_spread_exclude_zlb_below: 0.5      # fed funds < 0.5% = zero lower bound quarters
+  unrate: SEP longer-run median          # reported only; moves no PD
+
+outputs:
+  dir: reports/summary
+  paths_window_quarters: [-20, 40]   # paths / state files: reporting quarter -20 .. +40
+
+base:
+  method: SPF median (GDP, unemployment, 10-year Treasury) + VAR-conditional national HPI
+  mortgage_path: SPF TBOND + mortgage-Treasury spread, linear from its reporting-quarter value to
+    its mean over treasury_spread_window by the last forecast quarter
+  treasury_spread_window: [2000Q1, 2016Q4]   # mortgage30 - GS10 mean = 1.77 pp
+  interpolation: annual SPF averages held exactly; quarters by minimum squared second difference
+  files:
+    spf_growth: data/macro/medianGrowth.xlsx       # sheet RGDP
+    spf_level: data/macro/medianLevel.xlsx         # sheets RGDP, UNEMP, TBOND
+    gs10: data/macro/GS10.csv                      # FRED, monthly
+  dates:
+    "2026-03-31":
+      role: primary (parallel run before the 2027-04-01 effective date)
+      spf_survey: 2026Q1                           # released February 2026
+      sep:
+        file: data/macro/SEP March 2026.pdf
+        release_date: 2026-03-18
+        table: Table 1, medians (Q4/Q4 GDP growth; Q4 unemployment; end-year fed funds)
+        years: [2026, 2027, 2028, longer_run]
+        gdp: [2.4, 2.3, 2.1, 2.0]
+        unrate: [4.4, 4.3, 4.2, 4.2]
+        fedfunds: [3.4, 3.1, 3.1, 3.1]
+    "2023-03-31":
+      role: backtest (forecasts published by 2023Q1; no look-ahead)
+      spf_survey: 2023Q1                           # released 10 February 2023
+      sep:
+        file: data/macro/SEP March 2023.pdf
+        release_date: 2023-03-22
+        table: Table 1, medians (accessible version, browser printout)
+        years: [2023, 2024, 2025, longer_run]
+        gdp: [0.4, 1.2, 1.9, 1.8]
+        unrate: [4.5, 4.6, 4.6, 4.0]
+        fedfunds: [5.1, 4.3, 3.1, 2.5]
+    "2025-03-31":
+      role: opening balance for the Annex 4 Table 3 loss-allowance reconciliation (Module 10)
+      spf_survey: 2025Q1
+      sep:
+        file: data/macro/SEP March 2025.pdf    # federalreserve.gov fomcprojtabl20250319.pdf
+        release_date: 2025-03-19
+        table: Table 1, medians
+        years: [2025, 2026, 2027, longer_run]
+        gdp: [1.7, 1.8, 1.8, 1.8]
+        unrate: [4.4, 4.3, 4.3, 4.2]
+        fedfunds: [3.9, 3.4, 3.1, 3.0]
+  data_note: >-
+    Macro history (FRED, FHFA) is the current vintage cut at the reporting quarter, not real time
+    (documented choice). The reporting quarter's GDP and FHFA HPI are published after the reporting date
+    (late April / late May); they are used as if available at preparation, some weeks after the
+    reporting date.
+
+# --- crisis replay and CO-3 calibration (docs/methodology/scenarios.md) -----------------------
+replay:
+  population: dev_holdout          # loans not used in fitting (80/20 hash holdout)
+  vintages_calibration: [2006, 2007]
+  vintage_holdout: 2005            # not used in calibration
+  years: [3, 5]
+  calibration_years: 5
+  state_cut: 2004Q4                # R3: state indices observed to here, then beta x national
+  z_trough_window: [2005Q1, 2012Q4]  # replay Z trough for the severity scale s
+  tolerance_before: [0.8, 1.25]    # decides whether the multiplier is needed
+  tolerance_calibrated: [0.9, 1.1] # 2006 and 2007 at 5 years after calibration
+  tolerance_holdout: [0.8, 1.25]   # 2005 at 3 and 5 years
+  split_rule: pooled M leaves a region outside tolerance_before at 5y, or 90% intervals of
+    M_sand and M_other do not overlap
+  m_grid: [1.0, 30.0, 600]         # log-spaced grid for the calibration (min, max, points)
+  bootstrap: {n: 500, seed: 20261114, level: 0.90}
+
+# --- scenario PDs, backtest, early performance (docs/methodology/scenarios.md) -------------------
+scenario_pd:
+  lifetime_model: models/pd_lifetime/hazard_H2.pkl
+  scorecard: models/pd_12m/scorecard.pkl
+  z_measured: models/pd_pit/z_by_quarter.csv
+  ltv_bands: [0, 60, 80, 90, 100, .inf]
+  ltv_labels: ["<=60", "60-80", "80-90", "90-100", ">100"]
+  per_loan_dir: data/processed/scenario_pd   # loan-level: not in git
+
+early_performance:
+  vintages: [2024, 2026]
+  benchmark_vintages: [2000, 2016]
+  benchmark_sensitivity: [2012, 2016]
+  as_at: 2026-03-01
+  max_age_months: 29
+  age_band_months: 6
+  trigger_ratio: 1.25              # actual / expected above this -> candidate CO-4
+  min_events: 20

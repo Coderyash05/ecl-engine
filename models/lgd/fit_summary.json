@@ -1,0 +1,40 @@
+{
+  "version": "lgd-0.2.0",
+  "defaults": 67576,
+  "outcomes": {
+    "cure": 42948,
+    "liquidation": 21213,
+    "excluded": 1885,
+    "unresolved": 1530
+  },
+  "liquidations_complete": 19681,
+  "liquidations_incomplete": 1532,
+  "cure_gini": {
+    "development": 0.3803046736538751,
+    "oot": 0.5792873234400142
+  },
+  "severity_spearman": {
+    "development": 0.47409516292632686,
+    "oot": 0.3400356375274182
+  },
+  "cure_intercept_shift": -0.4685115083840398,
+  "recalibration_defaults": 15054,
+  "recalibration_actual_no_cure": 0.36488640892785973,
+  "crisis_actual_to_pred_lgd": 1.5066455249097754,
+  "crisis_actual_to_pred_lgd_option1": 1.2070406384712884,
+  "crisis_gap_trigger": 1.1,
+  "crisis_gap": true,
+  "realisation_haircut": 0.4773534778508042,
+  "realisation_haircut_by_period": {
+    "2000-06": 0.46146409886208883,
+    "2012-16": 0.4920046235846325,
+    "2017-19": 0.4925509603650122,
+    "2022-26": 0.3511649347725394,
+    "COVID 2020-21": 0.503349628432956,
+    "crisis 2007-11": 0.4792972744994113,
+    "other": 0.030411992294937962
+  },
+  "reo_sales_used": 10714,
+  "dev_rows": 121917,
+  "dev_liquidations": 18356
+}
